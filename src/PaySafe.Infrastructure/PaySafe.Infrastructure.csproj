@@ -1,6 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PaySafe.Domain\PaySafe.Domain.csproj" />
     <ProjectReference Include="..\PaySafe.Application\PaySafe.Application.csproj" />
   </ItemGroup>
