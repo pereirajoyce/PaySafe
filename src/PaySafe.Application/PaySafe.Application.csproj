@@ -4,6 +4,15 @@
     <ProjectReference Include="..\PaySafe.Domain\PaySafe.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Usuarios\DataTransfer\" />
+    <Folder Include="Usuarios\Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mapster" Version="7.4.0" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
