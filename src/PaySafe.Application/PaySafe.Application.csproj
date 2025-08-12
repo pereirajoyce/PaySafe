@@ -5,11 +5,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Usuarios\DataTransfer\" />
-    <Folder Include="Usuarios\Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Mapster" Version="7.4.0" />
   </ItemGroup>
 
