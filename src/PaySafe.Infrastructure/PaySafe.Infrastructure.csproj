@@ -10,6 +10,10 @@
     <ProjectReference Include="..\PaySafe.Application\PaySafe.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Planos\Repositories\" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
