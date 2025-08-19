@@ -1,6 +1,9 @@
-﻿namespace PaySafe.Domain.Planos.Services.Interfaces
+﻿using PaySafe.Domain.Planos.Entities;
+
+namespace PaySafe.Domain.Planos.Services.Interfaces
 {
-    public class IPlanosService
+    public interface IPlanosService
     {
+        Task<Plano> RecuperarAsync(Guid guid, CancellationToken cancellationToken);
     }
 }
