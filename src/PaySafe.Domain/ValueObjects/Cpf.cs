@@ -4,6 +4,8 @@
     {
         public string Numero { get; private set; }
 
+        protected Cpf() { }
+
         public Cpf(string numero)
         {
             if (string.IsNullOrEmpty(numero) || !ValidarCpf(numero))

@@ -1,5 +1,5 @@
 ﻿using FluentNHibernate.Mapping;
-using PaySafe.Domain.Plano.Entities;
+using PaySafe.Domain.Planos.Entities;
 
 namespace PaySafe.Infrastructure.Planos.Mapping
 {

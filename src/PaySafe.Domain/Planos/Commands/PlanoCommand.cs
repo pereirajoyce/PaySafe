@@ -1,4 +1,4 @@
-﻿namespace PaySafe.Domain.Plano.Commands
+﻿namespace PaySafe.Domain.Planos.Commands
 {
     public class PlanoCommand
     {

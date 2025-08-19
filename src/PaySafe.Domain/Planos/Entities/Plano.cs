@@ -1,6 +1,6 @@
-﻿using PaySafe.Domain.Plano.Commands;
+﻿using PaySafe.Domain.Planos.Commands;
 
-namespace PaySafe.Domain.Plano.Entities
+namespace PaySafe.Domain.Planos.Entities
 {
     public class Plano
     {
