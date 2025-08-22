@@ -1,41 +1,76 @@
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.OpenApi.Models;
+using PaySafe.API.Extensions;
+using System.Text.Json.Serialization;
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+namespace PaySafe.API
 {
-    app.MapOpenApi();
-}
+    public static class Program
+    {
+        public static void Main(string[] args)
+        {
+            try
+            {
+                var builder = WebApplication.CreateBuilder(args).ConfigureHost();
 
-app.UseHttpsRedirection();
+                AddServices(builder);
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+                var app = builder.Build();
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+                ConfigureServices(app);
 
-app.Run();
+                app.Run();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("API encerrada inesperadamente");
+            }
+        }
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        public static void AddServices(WebApplicationBuilder builder)
+        {
+
+            builder.Services
+                .AddControllers()
+                .AddJsonOptions(op =>
+                {
+                    op.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                    op.JsonSerializerOptions.PropertyNamingPolicy = null;
+                });
+
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "PaySafe API",
+                    Version = "v1"
+                });
+            });
+        }
+
+        public static void ConfigureServices(WebApplication app)
+        {
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();;
+            }
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI();
+
+            app.UseCors(c =>
+            {
+                c.AllowAnyHeader();
+                c.AllowAnyMethod();
+                c.AllowAnyOrigin();
+            });
+
+            app.UseRouting();
+
+            app.MapControllers();
+
+            app.Run();
+        }
+    }
 }
