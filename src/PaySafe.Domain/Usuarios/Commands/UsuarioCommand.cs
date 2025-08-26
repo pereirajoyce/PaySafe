@@ -1,4 +1,5 @@
-﻿using PaySafe.Domain.ValueObjects;
+﻿using PaySafe.Domain.Empresas.Entities;
+using PaySafe.Domain.ValueObjects;
 
 namespace PaySafe.Domain.Usuarios.Commands
 {
@@ -8,7 +9,7 @@ namespace PaySafe.Domain.Usuarios.Commands
         public string Sobrenome { get; protected set; }
         public Cpf Cpf { get; protected set; }
         public Email Email { get; protected set; }
-        public string Empresa { get; protected set; }
+        public Empresa Empresa { get; protected set; }
         public string Telefone { get; protected set; }
     }
 }

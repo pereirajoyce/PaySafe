@@ -1,4 +1,5 @@
-﻿using PaySafe.Domain.Usuarios.Commands;
+﻿using PaySafe.Domain.Empresas.Entities;
+using PaySafe.Domain.Usuarios.Commands;
 using PaySafe.Domain.ValueObjects;
 
 namespace PaySafe.Domain.Usuarios.Entities
@@ -11,10 +12,9 @@ namespace PaySafe.Domain.Usuarios.Entities
         public virtual string Sobrenome { get; protected set; }
         public virtual Cpf Cpf { get; protected set; }
         public virtual Email Email { get; protected set; }
-        public virtual string Empresa { get; protected set; }
+        public virtual Empresa Empresa { get; protected set; }
         public virtual string Telefone { get; protected set; }
         public virtual bool Excluido { get; protected set; } = false;
-
 
         protected Usuario() { }
 
@@ -48,9 +48,8 @@ namespace PaySafe.Domain.Usuarios.Entities
         {
             Cpf = new Cpf(cpf.Numero);
         }
-        
 
-        public virtual void SetEmpresa(string empresa)
+        public virtual void SetEmpresa(Empresa empresa)
         {
             Empresa = empresa;
         }

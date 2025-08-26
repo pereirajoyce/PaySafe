@@ -1,6 +1,6 @@
-﻿using PaySafe.Domain.Plano.Commands;
+﻿using PaySafe.Domain.Planos.Commands;
 
-namespace PaySafe.Domain.Plano.Entities
+namespace PaySafe.Domain.Planos.Entities
 {
     public class Plano
     {
@@ -10,8 +10,8 @@ namespace PaySafe.Domain.Plano.Entities
         public virtual double Mensalidade { get; protected set; }
         public virtual int Volume { get; protected set; }
         public virtual double ValorExcedente { get; protected set; }
-        public virtual int MaximoUsuarios { get; protected set; } = 1;
-        public virtual int MaximoGrupos { get; protected set; } = 1;
+        public virtual int MaximoUsuarios { get; protected set; }
+        public virtual int MaximoGrupos { get; protected set; }
 
         protected Plano() { }
 
