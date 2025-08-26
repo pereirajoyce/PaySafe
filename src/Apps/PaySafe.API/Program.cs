@@ -1,76 +1,18 @@
-using Microsoft.OpenApi.Models;
 using PaySafe.API.Extensions;
-using System.Text.Json.Serialization;
+using PaySafe.IoC;
 
-namespace PaySafe.API
-{
-    public static class Program
-    {
-        public static void Main(string[] args)
-        {
-            try
-            {
-                var builder = WebApplication.CreateBuilder(args).ConfigureHost();
+var builder = WebApplication.CreateBuilder(args).ConfigureHost();
 
-                AddServices(builder);
+var services = builder.Services;
+var configuration = builder.Configuration;
+var environment = builder.Environment;
 
-                var app = builder.Build();
+services.AddControllers();
 
-                ConfigureServices(app);
+services.AddCommonServices(configuration, environment);
 
-                app.Run();
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("API encerrada inesperadamente");
-            }
-        }
+var app = builder.Build();
 
-        public static void AddServices(WebApplicationBuilder builder)
-        {
+app.UseCommonAppConfiguration();
 
-            builder.Services
-                .AddControllers()
-                .AddJsonOptions(op =>
-                {
-                    op.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                    op.JsonSerializerOptions.PropertyNamingPolicy = null;
-                });
-
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "PaySafe API",
-                    Version = "v1"
-                });
-            });
-        }
-
-        public static void ConfigureServices(WebApplication app)
-        {
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();;
-            }
-
-            app.UseSwagger();
-
-            app.UseSwaggerUI();
-
-            app.UseCors(c =>
-            {
-                c.AllowAnyHeader();
-                c.AllowAnyMethod();
-                c.AllowAnyOrigin();
-            });
-
-            app.UseRouting();
-
-            app.MapControllers();
-
-            app.Run();
-        }
-    }
-}
+await app.RunAsync();
