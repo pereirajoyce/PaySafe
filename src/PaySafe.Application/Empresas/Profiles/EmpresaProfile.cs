@@ -1,8 +1,8 @@
 ﻿using Mapster;
-using PaySafe.Application.Empresas.DataTransfer.Requests;
 using PaySafe.Application.Empresas.DataTransfer.Responses;
-using PaySafe.Domain.Empresas.Commands;
+using PaySafe.Application.Planos.DataTransfer.Responses;
 using PaySafe.Domain.Empresas.Entities;
+using PaySafe.Domain.Planos.Entities;
 
 namespace PaySafe.Application.Empresas.Profiles
 {
@@ -10,9 +10,8 @@ namespace PaySafe.Application.Empresas.Profiles
     {
         public void Register(TypeAdapterConfig config)
         {
-            config.NewConfig<Empresa, EmpresaResponse>();
-            config.NewConfig<EmpresaInserirRequest, EmpresaCommand>();
-            config.NewConfig<EmpresaEditarRequest, EmpresaCommand>();
+            config.NewConfig<Empresa, EmpresaResponse>()
+                .Map(d => d.PlanoGuid, s => s.Plano.Guid);
         }
     }
 }

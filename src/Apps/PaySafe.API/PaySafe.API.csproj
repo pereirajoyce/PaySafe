@@ -23,6 +23,7 @@
     <ProjectReference Include="..\..\PaySafe.Application\PaySafe.Application.csproj" />
     <ProjectReference Include="..\..\PaySafe.Infrastructure\PaySafe.Infrastructure.csproj" />
     <ProjectReference Include="..\..\PaySafe.CrossCutting\PaySafe.CrossCutting.csproj" />
+    <ProjectReference Include="..\..\PaySafe.IoC\PaySafe.IoC.csproj" />
   </ItemGroup>
 
 </Project>

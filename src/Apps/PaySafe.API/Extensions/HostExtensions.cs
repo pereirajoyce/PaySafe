@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.HttpOverrides;
+﻿using System.Reflection;
 
 namespace PaySafe.API.Extensions
 {
@@ -6,41 +6,17 @@ namespace PaySafe.API.Extensions
     {
         public static WebApplicationBuilder ConfigureHost(this WebApplicationBuilder builder)
         {
+            var port = $"http://*:{builder.Configuration["Application:Port"]}";
+
             builder.Configuration
                  .SetBasePath(Directory.GetCurrentDirectory())
                  .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                  .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true)
                  .AddEnvironmentVariables();
 
-            builder.WebHost.UseUrls(builder.Configuration.GetSection("Application:Port").Value);
+            builder.WebHost.UseUrls(port);
 
             return builder;
-        }
-
-        public static WebApplication ConfigureBasePath(this WebApplication app)
-        {
-            string basePath = app.Configuration.GetSection("Application:Path").Value;
-
-            if (!string.IsNullOrEmpty(basePath))
-            {
-                if (!basePath.StartsWith('/'))
-                    basePath = "/" + basePath;
-
-                app.UsePathBase(basePath);
-
-                app.Use(async (context, next) =>
-                {
-                    context.Request.PathBase = basePath;
-                    await next.Invoke();
-                });
-            }
-
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.All
-            });
-
-            return app;
         }
     }
 }
