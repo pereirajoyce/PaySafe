@@ -8,6 +8,7 @@ namespace PaySafe.Infrastructure.Usuarios.Mapping
         public UsuarioMap()
         {
             Table("USUARIO");
+            Not.LazyLoad();
             Id(x => x.Id).GeneratedBy.Identity().Column("ID");
             Map(x => x.Guid).Column("GUID").Not.Nullable();
             Map(x => x.Nome).Column("NOME").Not.Nullable().Length(100);

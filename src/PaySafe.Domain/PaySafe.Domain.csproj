@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Usuarios\Enums\" />
+    <Compile Remove="Usuarios\Enums\**" />
+    <EmbeddedResource Remove="Usuarios\Enums\**" />
+    <None Remove="Usuarios\Enums\**" />
   </ItemGroup>
 
 </Project>

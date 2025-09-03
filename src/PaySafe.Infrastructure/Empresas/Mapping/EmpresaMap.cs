@@ -8,6 +8,7 @@ namespace PaySafe.Infrastructure.Empresas.Mapping
         public EmpresaMap()
         {
             Table("Empresas");
+            Not.LazyLoad();
             Id(x => x.Id).GeneratedBy.Identity();
             Map(x => x.Guid).Column("GUID").Not.Nullable().Unique();
             Map(x => x.RazaoSocial).Column("RAZAO_SOCIAL").Not.Nullable();
