@@ -8,6 +8,7 @@ namespace PaySafe.Domain.Planos.Services.Interfaces
         Task<Plano> InserirAsync(PlanoCommand command, CancellationToken cancellationToken);
         Task<Plano> EditarAsync(Guid guid, PlanoEditarCommand command, CancellationToken cancellationToken);
         Task<Plano> RecuperarAsync(Guid guid, CancellationToken cancellationToken);
+        Task<Plano> ValidarAsync(Guid guid, CancellationToken cancellationToken);
         Task ExcluirAsync(Guid guid, CancellationToken cancellationToken);
     }
 }

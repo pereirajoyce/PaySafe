@@ -1,11 +1,13 @@
-﻿using PaySafe.Domain.Usuarios.Commands;
+﻿using PaySafe.Domain.Empresas.Entities;
+using PaySafe.Domain.Empresas.Services.Interfaces;
+using PaySafe.Domain.Usuarios.Commands;
 using PaySafe.Domain.Usuarios.Entities;
 using PaySafe.Domain.Usuarios.Repositories;
 using PaySafe.Domain.Usuarios.Services.Interfaces;
 
 namespace PaySafe.Domain.Usuarios.Services
 {
-    public class UsuariosService(IUsuariosRepository usuariosRepository) : IUsuariosService
+    public class UsuariosService(IUsuariosRepository usuariosRepository, IEmpresasService empresasService) : IUsuariosService
     {
         private readonly IUsuariosRepository usuariosRepository = usuariosRepository;
 
@@ -35,7 +37,9 @@ namespace PaySafe.Domain.Usuarios.Services
 
         public async Task<Usuario> InserirAsync(UsuarioCommand command, CancellationToken cancellationToken)
         {
-            Usuario usuario = new(command);
+            Empresa empresa = await empresasService.ValidarAsync(command.Empresa, cancellationToken);
+
+            Usuario usuario = new(command, empresa);
 
             await usuariosRepository.InserirAsync(usuario, cancellationToken);
 

@@ -1,4 +1,5 @@
-﻿using PaySafe.Domain.Usuarios.Commands;
+﻿using PaySafe.Domain.Empresas.Entities;
+using PaySafe.Domain.Usuarios.Commands;
 using PaySafe.Domain.Usuarios.Entities;
 
 namespace PaySafe.Domain.Usuarios.Services.Interfaces

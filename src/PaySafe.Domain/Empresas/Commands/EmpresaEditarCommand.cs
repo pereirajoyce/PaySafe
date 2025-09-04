@@ -2,7 +2,7 @@
 
 namespace PaySafe.Domain.Empresas.Commands
 {
-    public class EmpresaCommand
+    public class EmpresaEditarCommand
     {
         public string RazaoSocial { get; set; }
         public string NomeFantasia { get; set; }

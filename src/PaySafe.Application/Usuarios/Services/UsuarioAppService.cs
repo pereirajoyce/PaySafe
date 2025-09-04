@@ -2,12 +2,13 @@
 using PaySafe.Application.Usuarios.DataTransfer.Requests;
 using PaySafe.Application.Usuarios.DataTransfer.Responses;
 using PaySafe.Application.Usuarios.Services.Interfaces;
+using PaySafe.Domain.Empresas.Services.Interfaces;
 using PaySafe.Domain.Usuarios.Commands;
 using PaySafe.Domain.Usuarios.Services.Interfaces;
 
 namespace PaySafe.Application.Usuarios.Services
 {
-    public class UsuarioAppService(IUsuariosService usuariosService) : IUsuariosAppService
+    public class UsuarioAppService(IUsuariosService usuariosService, IEmpresasService empresasService) : IUsuariosAppService
     {
         public async Task<UsuarioResponse> InserirAsync(UsuarioInserirRequest request, CancellationToken cancellationToken)
         {
@@ -59,7 +60,7 @@ namespace PaySafe.Application.Usuarios.Services
         {
             try
             {
-                await ExcluirAsync(guid, cancellationToken);
+                await usuariosService.ExcluirAsync(guid, cancellationToken);
             }
             catch (Exception ex)
             {

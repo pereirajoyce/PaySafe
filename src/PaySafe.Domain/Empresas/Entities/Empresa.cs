@@ -16,12 +16,12 @@ namespace PaySafe.Domain.Empresas.Entities
 
         protected Empresa() { }
 
-        public Empresa(EmpresaCommand command)
+        public Empresa(EmpresaCommand command, Plano plano)
         {
             SetRazaoSocial(command.RazaoSocial);
             SetNomeFantasia(command.NomeFantasia);
             SetCnpj(command.Cnpj);
-            SetPlano(command.Plano);
+            SetPlano(plano);
         }
 
         public virtual void SetRazaoSocial(string razaoSocial)
