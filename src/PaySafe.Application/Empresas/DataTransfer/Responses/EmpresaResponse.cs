@@ -8,6 +8,6 @@ namespace PaySafe.Application.Empresas.DataTransfer.Responses
         public string RazaoSocial { get; set; }
         public string NomeFantasia { get; set; }
         public Cnpj Cnpj { get; set; }
-        public Guid Plano { get; set; }
+        public Guid PlanoGuid { get; set; }
     }
 }

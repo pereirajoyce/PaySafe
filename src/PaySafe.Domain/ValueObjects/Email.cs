@@ -6,6 +6,8 @@ namespace PaySafe.Domain.ValueObjects
     {
         public string Endereco { get; private set; }
 
+        protected Email() { }
+
         public Email(string endereco)
         {
             if (string.IsNullOrEmpty(endereco) || !ValidarEmail(endereco))

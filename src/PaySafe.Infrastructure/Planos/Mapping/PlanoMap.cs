@@ -8,6 +8,7 @@ namespace PaySafe.Infrastructure.Planos.Mapping
         public PlanoMap()
         {
             Table("PLANO");
+            Not.LazyLoad();
             Id(x => x.Id).GeneratedBy.Identity().Column("ID");
             Map(x => x.Guid).Column("GUID").Not.Nullable();
             Map(x => x.Nome).Column("NOME").Not.Nullable().Length(100);
