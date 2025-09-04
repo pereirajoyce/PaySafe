@@ -37,8 +37,15 @@ namespace PaySafe.Domain.Planos.Services
         {
             var plano = await planosRepository.RecuperarAsync(guid, cancellationToken);
 
+            return plano;
+        }
+
+        public async Task<Plano> ValidarAsync(Guid guid, CancellationToken cancellationToken)
+        {
+            var plano = await planosRepository.RecuperarAsync(guid, cancellationToken);
+
             if (plano is null)
-                throw new ArgumentNullException(nameof(plano));
+                throw new KeyNotFoundException("Plano não encontrado.");
 
             return plano;
         }

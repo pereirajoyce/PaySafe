@@ -16,6 +16,9 @@ namespace PaySafe.API.Controllers.Planos
             _planosAppService = planosAppService;
         }
 
+        /// <summary>
+        /// Atualiza os dados de um plano existente.
+        /// </summary>
         [HttpPut("{guid}")]
         [ProducesResponseType<PlanoResponse>(StatusCodes.Status200OK)]
         public async Task<IActionResult> EditarAsync([FromRoute] Guid guid, [FromBody] PlanoEditarRequest request, CancellationToken cancellationToken)
@@ -24,6 +27,9 @@ namespace PaySafe.API.Controllers.Planos
             return Ok(plano);
         }
 
+        /// <summary>
+        /// Cria um novo plano.
+        /// </summary>
         [HttpPost]
         [ProducesResponseType<PlanoResponse>(StatusCodes.Status201Created)]
         public async Task<IActionResult> InserirAsync([FromBody] PlanoInserirRequest request, CancellationToken cancellationToken)
@@ -32,6 +38,9 @@ namespace PaySafe.API.Controllers.Planos
             return Ok(plano);
         }
 
+        /// <summary>
+        /// Recupera um plano pelo seu GUID.
+        /// </summary>
         [HttpGet("{guid}")]
         [ProducesResponseType<PlanoResponse>(StatusCodes.Status200OK)]
         public async Task<IActionResult> RecuperarAsync([FromRoute] Guid guid, CancellationToken cancellationToken)
@@ -40,6 +49,9 @@ namespace PaySafe.API.Controllers.Planos
             return Ok(plano);
         }
 
+        /// <summary>
+        /// Exclui um plano pelo seu GUID.
+        /// </summary>
         [HttpDelete("{guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> ExcluirAsync([FromRoute] Guid guid, CancellationToken cancellationToken)

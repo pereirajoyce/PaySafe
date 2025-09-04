@@ -7,37 +7,56 @@ namespace PaySafe.API.Controllers.Usuarios
 {
     [Route("api/usuarios")]
     [ApiController]
-    public class UsuariosController(IUsuariosAppService usuariosAppService) : Controller
+    public class UsuariosController : Controller
     {
-        [HttpPost()]
+        private readonly IUsuariosAppService _usuariosAppService;
+
+        public UsuariosController(IUsuariosAppService usuariosAppService)
+        {
+            _usuariosAppService = usuariosAppService;
+        }
+
+        /// <summary>
+        /// Cria um novo usuário.
+        /// </summary>
+        [HttpPost]
         [ProducesResponseType<UsuarioResponse>(StatusCodes.Status201Created)]
         public async Task<IActionResult> InserirAsync([FromBody] UsuarioInserirRequest request, CancellationToken cancellationToken)
         {
-            var usuario = await usuariosAppService.InserirAsync(request, cancellationToken);
+            var usuario = await _usuariosAppService.InserirAsync(request, cancellationToken);
             return Ok(usuario);
         }
 
+        /// <summary>
+        /// Atualiza os dados de um usuário existente.
+        /// </summary>
         [HttpPut("{guid}")]
         [ProducesResponseType<UsuarioResponse>(StatusCodes.Status200OK)]
         public async Task<IActionResult> EditarAsync([FromRoute] Guid guid, [FromBody] UsuarioEditarRequest request, CancellationToken cancellationToken)
         {
-            var usuario = await usuariosAppService.EditarAsync(guid, request, cancellationToken);
+            var usuario = await _usuariosAppService.EditarAsync(guid, request, cancellationToken);
             return Ok(usuario);
         }
 
+        /// <summary>
+        /// Recupera um usuário pelo seu GUID.
+        /// </summary>
         [HttpGet("{guid}")]
         [ProducesResponseType<UsuarioResponse>(StatusCodes.Status200OK)]
         public async Task<IActionResult> RecuperarAsync([FromRoute] Guid guid, CancellationToken cancellationToken)
         {
-            var usuario = await usuariosAppService.RecuperarAsync(guid, cancellationToken);
+            var usuario = await _usuariosAppService.RecuperarAsync(guid, cancellationToken);
             return Ok(usuario);
         }
 
-        [HttpDelete()]
-        [ProducesResponseType<UsuarioResponse>(StatusCodes.Status204NoContent)]
+        /// <summary>
+        /// Exclui um usuário pelo seu GUID.
+        /// </summary>
+        [HttpDelete("{guid}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> ExcluirAsync([FromRoute] Guid guid, CancellationToken cancellationToken)
         {
-            await usuariosAppService.ExcluirAsync(guid, cancellationToken);
+            await _usuariosAppService.ExcluirAsync(guid, cancellationToken);
             return NoContent();
         }
     }

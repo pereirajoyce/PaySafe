@@ -18,12 +18,12 @@ namespace PaySafe.Domain.Usuarios.Entities
 
         protected Usuario() { }
 
-        public Usuario(UsuarioCommand command)
+        public Usuario(UsuarioCommand command, Empresa empresa)
         {
             SetNome(command.Nome);
             SetSobrenome(command.Sobrenome);
             SetCpf(command.Cpf);
-            SetEmpresa(command.Empresa);
+            SetEmpresa(empresa);
             SetTelefone(command.Telefone);
             SetEmail(command.Email);
         }
