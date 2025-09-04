@@ -14,14 +14,13 @@ namespace PaySafe.IoC.Configurations.NHibernate
         {
             services.AddSingleton<ISessionFactory>(sp =>
             {
-                var cs = env.IsDevelopment()
-                    ? configuration.GetConnectionString("MySql")
-                    : "*****";
+                var cs = configuration["MySql:ConnectionString"];
 
                 return Fluently.Configure()
                     .Database(MySQLConfiguration.Standard
                         .ConnectionString(cs)
                         .ShowSql()
+                        .DefaultSchema("PAYSAFE")
                         .FormatSql())
                     .Mappings(m =>
                     {
