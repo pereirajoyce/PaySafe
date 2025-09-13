@@ -1,6 +1,6 @@
 ﻿namespace PaySafe.Application.Common.NHibernate.Interfaces
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
         void BeginTransaction();
         void Clear();

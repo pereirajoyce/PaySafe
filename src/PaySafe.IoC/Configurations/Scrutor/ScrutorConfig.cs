@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PaySafe.Application.Common.NHibernate;
+using PaySafe.Application.Common.NHibernate.Interfaces;
 using PaySafe.Application.Planos.Services.Interfaces;
 using PaySafe.Domain.Planos.Services.Interfaces;
 using PaySafe.Infrastructure.Planos.Repositories;
@@ -12,6 +14,9 @@ namespace PaySafe.IoC.Configurations.Scrutor
         public static IServiceCollection InjetarDependenciasApplication(this IServiceCollection services)
         {
             services.ScanServices(typeof(IPlanosAppService).Assembly);
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             return services;
         }
 
