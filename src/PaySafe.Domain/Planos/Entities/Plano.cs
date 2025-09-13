@@ -1,4 +1,5 @@
-﻿using PaySafe.Domain.Planos.Commands;
+﻿using PaySafe.CrossCutting.Exceptions;
+using PaySafe.Domain.Planos.Commands;
 
 namespace PaySafe.Domain.Planos.Entities
 {
@@ -28,7 +29,7 @@ namespace PaySafe.Domain.Planos.Entities
         public virtual void SetNome(string nome)
         {
             if (string.IsNullOrWhiteSpace(nome))
-                throw new ArgumentNullException(nameof(nome));
+                throw new AtributoObrigatorioException(nameof(nome));
 
             Nome = nome;
         }
@@ -36,7 +37,7 @@ namespace PaySafe.Domain.Planos.Entities
         public virtual void SetMensalidade(double mensalidade)
         {
             if (mensalidade < 0)
-                throw new ArgumentNullException(nameof(mensalidade));
+                throw new AtributoInvalidoException(nameof(mensalidade));
 
             Mensalidade = mensalidade;
         }
@@ -44,7 +45,7 @@ namespace PaySafe.Domain.Planos.Entities
         public virtual void SetVolume(int volume)
         {
             if (volume < 0)
-                throw new ArgumentNullException(nameof(volume));
+                throw new AtributoInvalidoException(nameof(volume));
 
             Volume = volume;
         }
@@ -52,7 +53,7 @@ namespace PaySafe.Domain.Planos.Entities
         public virtual void SetValorExcedente(double valorExcedente)
         {
             if (valorExcedente  < 0)
-                throw new ArgumentNullException(nameof(valorExcedente));
+                throw new AtributoInvalidoException(nameof(valorExcedente));
 
             ValorExcedente = valorExcedente;
         }
@@ -60,7 +61,7 @@ namespace PaySafe.Domain.Planos.Entities
         public virtual void SetMaximoUsuarios(int maximoUsuarios)
         {
             if (maximoUsuarios < 0)
-                throw new InvalidDataException(nameof(maximoUsuarios));
+                throw new AtributoInvalidoException(nameof(maximoUsuarios));
 
             MaximoUsuarios = maximoUsuarios;
         }
@@ -68,7 +69,7 @@ namespace PaySafe.Domain.Planos.Entities
         public virtual void SetMaximoGrupos(int maximoGrupos)
         {
             if (maximoGrupos < 0)
-                throw new InvalidDataException(nameof(maximoGrupos));
+                throw new AtributoInvalidoException(nameof(maximoGrupos));
 
             MaximoGrupos = maximoGrupos;
         }

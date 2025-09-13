@@ -1,5 +1,7 @@
 ﻿using Mapster;
 using PaySafe.Application.Common.Consultas.DataTransfer.Responses;
+using PaySafe.Application.Common.NHibernate;
+using PaySafe.Application.Common.NHibernate.Interfaces;
 using PaySafe.Application.Empresas.DataTransfer.Requests;
 using PaySafe.Application.Empresas.DataTransfer.Responses;
 using PaySafe.Application.Empresas.Services.Interfaces;
@@ -9,7 +11,7 @@ using PaySafe.Domain.Empresas.Services.Interfaces;
 
 namespace PaySafe.Application.Empresas.Services
 {
-    public class EmpresasAppService(IEmpresasService empresasService, IEmpresasRepository empresasRepository) : IEmpresasAppService
+    public class EmpresasAppService(IEmpresasService empresasService, IEmpresasRepository empresasRepository, IUnitOfWork unitOfWork) : IEmpresasAppService
     {
         public async Task<EmpresaResponse> RecuperarAsync(Guid guid, CancellationToken cancellationToken)
         {
@@ -19,9 +21,9 @@ namespace PaySafe.Application.Empresas.Services
 
                 return response.Adapt<EmpresaResponse>();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new ApplicationException("Um erro ocorreu ao tentar recuperar a empresa.", ex);
+                throw;
             }
         }
 
@@ -31,14 +33,19 @@ namespace PaySafe.Application.Empresas.Services
             {
                 var command = request.Adapt<EmpresaCommand>();
 
+                unitOfWork.BeginTransaction();
+
                 var response = await empresasService.InserirAsync(command, cancellationToken);
+
+                await unitOfWork.CommitAsync(cancellationToken);
 
                 return response.Adapt<EmpresaResponse>();
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new ApplicationException("Um erro ocorreu ao tentar criar uma empresa.", ex);
+                await unitOfWork.RollbackAsync(cancellationToken);
+                throw;
             }
         }
 
@@ -48,13 +55,18 @@ namespace PaySafe.Application.Empresas.Services
             {
                 var command = request.Adapt<EmpresaEditarCommand>();
 
+                unitOfWork.BeginTransaction();
+
                 var response = await empresasService.EditarAsync(guid, command, cancellationToken);
+
+                await unitOfWork.CommitAsync(cancellationToken);
 
                 return response.Adapt<EmpresaResponse>();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new ApplicationException("Um erro ocorreu ao tentar editar uma empresa.", ex);
+                await unitOfWork.RollbackAsync(cancellationToken);
+                throw;
             }
         }
 
@@ -62,11 +74,16 @@ namespace PaySafe.Application.Empresas.Services
         {
             try
             {
+                unitOfWork.BeginTransaction();
+
                 await empresasService.ExcluirAsync(guid, cancellationToken);
+
+                await unitOfWork.CommitAsync(cancellationToken);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new ApplicationException("Um erro ocorreu ao tentar excluir a empresa.", ex);
+                await unitOfWork.RollbackAsync(cancellationToken);
+                throw;
             }
         }
 
@@ -90,9 +107,9 @@ namespace PaySafe.Application.Empresas.Services
                     Itens = empresas.Adapt<IEnumerable<EmpresaResponse>>()
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new ApplicationException("Um erro ocorreu ao tentar listar os usuários com paginação.", ex);
+                throw;
             }
         }
     }

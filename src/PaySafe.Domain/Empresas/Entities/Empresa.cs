@@ -1,4 +1,5 @@
-﻿using PaySafe.Domain.Empresas.Commands;
+﻿using PaySafe.CrossCutting.Exceptions;
+using PaySafe.Domain.Empresas.Commands;
 using PaySafe.Domain.Planos.Entities;
 using PaySafe.Domain.ValueObjects;
 
@@ -27,7 +28,7 @@ namespace PaySafe.Domain.Empresas.Entities
         public virtual void SetRazaoSocial(string razaoSocial)
         {
             if (string.IsNullOrWhiteSpace(razaoSocial))
-                throw new ArgumentNullException(nameof(razaoSocial));
+                throw new AtributoObrigatorioException(nameof(razaoSocial));
 
             RazaoSocial = razaoSocial;
         }
@@ -35,7 +36,7 @@ namespace PaySafe.Domain.Empresas.Entities
         public virtual void SetNomeFantasia(string nomeFantasia)
         {
             if (string.IsNullOrWhiteSpace(nomeFantasia))
-                throw new ArgumentNullException(nameof(nomeFantasia));
+                throw new AtributoObrigatorioException(nameof(nomeFantasia));
 
             NomeFantasia = nomeFantasia;
         }
