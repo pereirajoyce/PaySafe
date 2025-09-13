@@ -8,15 +8,8 @@ namespace PaySafe.API.Controllers.Planos
 {
     [Route("api/planos")]
     [ApiController]
-    public class PlanosController : ControllerBase
+    public class PlanosController(IPlanosAppService planosAppService) : ControllerBase
     {
-        private readonly IPlanosAppService _planosAppService;
-
-        public PlanosController(IPlanosAppService planosAppService)
-        {
-            _planosAppService = planosAppService;
-        }
-
         /// <summary>
         /// Cria um novo plano.
         /// </summary>
@@ -24,7 +17,7 @@ namespace PaySafe.API.Controllers.Planos
         [ProducesResponseType<PlanoResponse>(StatusCodes.Status201Created)]
         public async Task<IActionResult> InserirAsync([FromBody] PlanoInserirRequest request, CancellationToken cancellationToken)
         {
-            var plano = await _planosAppService.InserirAsync(request, cancellationToken);
+            var plano = await planosAppService.InserirAsync(request, cancellationToken);
             return Ok(plano);
         }
 
@@ -35,7 +28,7 @@ namespace PaySafe.API.Controllers.Planos
         [ProducesResponseType<PlanoResponse>(StatusCodes.Status200OK)]
         public async Task<IActionResult> EditarAsync([FromRoute] Guid guid, [FromBody] PlanoEditarRequest request, CancellationToken cancellationToken)
         {
-            var plano = await _planosAppService.EditarAsync(guid, request, cancellationToken);
+            var plano = await planosAppService.EditarAsync(guid, request, cancellationToken);
             return Ok(plano);
         }
 
@@ -46,7 +39,7 @@ namespace PaySafe.API.Controllers.Planos
         [ProducesResponseType<PlanoResponse>(StatusCodes.Status200OK)]
         public async Task<IActionResult> RecuperarAsync([FromRoute] Guid guid, CancellationToken cancellationToken)
         {
-            var plano = await _planosAppService.RecuperarAsync(guid, cancellationToken);
+            var plano = await planosAppService.RecuperarAsync(guid, cancellationToken);
             return Ok(plano);
         }
 
@@ -57,7 +50,7 @@ namespace PaySafe.API.Controllers.Planos
         [ProducesResponseType<PaginacaoResponse<PlanoResponse>>(StatusCodes.Status200OK)]
         public async Task<IActionResult> ListarComPaginacaoAsync([FromQuery] PlanoListarFiltroRequest filtro, CancellationToken cancellationToken)
         {
-            var response = await _planosAppService.ListarComPaginacaoAsync(filtro, cancellationToken);
+            var response = await planosAppService.ListarComPaginacaoAsync(filtro, cancellationToken);
             return Ok(response);
         }
 
@@ -68,7 +61,7 @@ namespace PaySafe.API.Controllers.Planos
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> ExcluirAsync([FromRoute] Guid guid, CancellationToken cancellationToken)
         {
-            await _planosAppService.ExcluirAsync(guid, cancellationToken);
+            await planosAppService.ExcluirAsync(guid, cancellationToken);
             return NoContent();
         }
     }
