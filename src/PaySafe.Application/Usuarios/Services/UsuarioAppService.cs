@@ -1,16 +1,16 @@
 ﻿using Mapster;
 using PaySafe.Application.Common.Consultas.DataTransfer.Responses;
+using PaySafe.Application.Common.NHibernate.Interfaces;
 using PaySafe.Application.Usuarios.DataTransfer.Requests;
 using PaySafe.Application.Usuarios.DataTransfer.Responses;
 using PaySafe.Application.Usuarios.Services.Interfaces;
-using PaySafe.Domain.Common;
 using PaySafe.Domain.Usuarios.Commands;
 using PaySafe.Domain.Usuarios.Repositories;
 using PaySafe.Domain.Usuarios.Services.Interfaces;
 
 namespace PaySafe.Application.Usuarios.Services
 {
-    public class UsuarioAppService(IUsuariosService usuariosService, IUsuariosRepository usuariosRepository) : IUsuariosAppService
+    public class UsuarioAppService(IUsuariosService usuariosService, IUsuariosRepository usuariosRepository, IUnitOfWork unitOfWork) : IUsuariosAppService
     {
         public async Task<UsuarioResponse> InserirAsync(UsuarioInserirRequest request, CancellationToken cancellationToken)
         {
@@ -18,12 +18,17 @@ namespace PaySafe.Application.Usuarios.Services
             {
                 var command = request.Adapt<UsuarioCommand>();
 
+                unitOfWork.BeginTransaction();
+
                 var response = await usuariosService.InserirAsync(command, cancellationToken);
+
+                await unitOfWork.CommitAsync(cancellationToken);
 
                 return response.Adapt<UsuarioResponse>();
             }
             catch (Exception)
             {
+                await unitOfWork.RollbackAsync(cancellationToken);
                 throw;
             }
         }
@@ -34,12 +39,17 @@ namespace PaySafe.Application.Usuarios.Services
             {
                 var command = request.Adapt<UsuarioEditarCommand>();
 
+                unitOfWork.BeginTransaction();
+
                 var response = await usuariosService.EditarAsync(guid, command, cancellationToken);
+
+                await unitOfWork.CommitAsync(cancellationToken);
 
                 return response.Adapt<UsuarioResponse>();
             }
             catch (Exception)
             {
+                await unitOfWork.RollbackAsync(cancellationToken);
                 throw;
             }
         }
@@ -54,6 +64,7 @@ namespace PaySafe.Application.Usuarios.Services
             }
             catch (Exception)
             {
+                await unitOfWork.RollbackAsync(cancellationToken);
                 throw;
             }
         }
@@ -62,10 +73,15 @@ namespace PaySafe.Application.Usuarios.Services
         {
             try
             {
+                unitOfWork.BeginTransaction();
+
                 await usuariosService.ExcluirAsync(guid, cancellationToken);
+
+                await unitOfWork.CommitAsync(cancellationToken);
             }
             catch (Exception)
             {
+                await unitOfWork.RollbackAsync(cancellationToken);
                 throw;
             }
         }

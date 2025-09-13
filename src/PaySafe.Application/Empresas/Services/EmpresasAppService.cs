@@ -1,5 +1,7 @@
 ﻿using Mapster;
 using PaySafe.Application.Common.Consultas.DataTransfer.Responses;
+using PaySafe.Application.Common.NHibernate;
+using PaySafe.Application.Common.NHibernate.Interfaces;
 using PaySafe.Application.Empresas.DataTransfer.Requests;
 using PaySafe.Application.Empresas.DataTransfer.Responses;
 using PaySafe.Application.Empresas.Services.Interfaces;
@@ -9,7 +11,7 @@ using PaySafe.Domain.Empresas.Services.Interfaces;
 
 namespace PaySafe.Application.Empresas.Services
 {
-    public class EmpresasAppService(IEmpresasService empresasService, IEmpresasRepository empresasRepository) : IEmpresasAppService
+    public class EmpresasAppService(IEmpresasService empresasService, IEmpresasRepository empresasRepository, IUnitOfWork unitOfWork) : IEmpresasAppService
     {
         public async Task<EmpresaResponse> RecuperarAsync(Guid guid, CancellationToken cancellationToken)
         {
@@ -31,13 +33,18 @@ namespace PaySafe.Application.Empresas.Services
             {
                 var command = request.Adapt<EmpresaCommand>();
 
+                unitOfWork.BeginTransaction();
+
                 var response = await empresasService.InserirAsync(command, cancellationToken);
+
+                await unitOfWork.CommitAsync(cancellationToken);
 
                 return response.Adapt<EmpresaResponse>();
 
             }
             catch (Exception)
             {
+                await unitOfWork.RollbackAsync(cancellationToken);
                 throw;
             }
         }
@@ -48,12 +55,17 @@ namespace PaySafe.Application.Empresas.Services
             {
                 var command = request.Adapt<EmpresaEditarCommand>();
 
+                unitOfWork.BeginTransaction();
+
                 var response = await empresasService.EditarAsync(guid, command, cancellationToken);
+
+                await unitOfWork.CommitAsync(cancellationToken);
 
                 return response.Adapt<EmpresaResponse>();
             }
             catch (Exception)
             {
+                await unitOfWork.RollbackAsync(cancellationToken);
                 throw;
             }
         }
@@ -62,10 +74,15 @@ namespace PaySafe.Application.Empresas.Services
         {
             try
             {
+                unitOfWork.BeginTransaction();
+
                 await empresasService.ExcluirAsync(guid, cancellationToken);
+
+                await unitOfWork.CommitAsync(cancellationToken);
             }
             catch (Exception)
             {
+                await unitOfWork.RollbackAsync(cancellationToken);
                 throw;
             }
         }

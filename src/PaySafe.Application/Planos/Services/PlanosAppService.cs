@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using PaySafe.Application.Common.Consultas.DataTransfer.Responses;
+using PaySafe.Application.Common.NHibernate.Interfaces;
 using PaySafe.Application.Planos.DataTransfer.Requests;
 using PaySafe.Application.Planos.DataTransfer.Responses;
 using PaySafe.Application.Planos.Services.Interfaces;
@@ -9,21 +10,25 @@ using PaySafe.Domain.Planos.Services.Interfaces;
 
 namespace PaySafe.Application.Planos.Services
 {
-    public class PlanosAppService(IPlanosService planosService, IPlanosRepository planosRepository) : IPlanosAppService
+    public class PlanosAppService(IPlanosService planosService, IPlanosRepository planosRepository, IUnitOfWork unitOfWork) : IPlanosAppService
     {
-
         public async Task<PlanoResponse> EditarAsync(Guid guid, PlanoEditarRequest request, CancellationToken cancellationToken)
         {
             try
             {
+                unitOfWork.BeginTransaction();
+
                 var command = request.Adapt<PlanoEditarCommand>();
 
                 var plano = await planosService.EditarAsync(guid, command, cancellationToken);
+
+                await unitOfWork.CommitAsync(cancellationToken);
 
                 return plano.Adapt<PlanoResponse>();
             }
             catch (Exception)
             {
+                await unitOfWork.RollbackAsync(cancellationToken);
                 throw;
             }
         }
@@ -32,15 +37,19 @@ namespace PaySafe.Application.Planos.Services
         {
             try
             {
+                unitOfWork.BeginTransaction();
+
                 var command = request.Adapt<PlanoCommand>();
 
                 var plano = await planosService.InserirAsync(command, cancellationToken);
+
+                await unitOfWork.CommitAsync(cancellationToken);
 
                 return plano.Adapt<PlanoResponse>();
             }
             catch (Exception)
             {
-
+                await unitOfWork.RollbackAsync(cancellationToken);
                 throw;
             }
         }
@@ -63,10 +72,15 @@ namespace PaySafe.Application.Planos.Services
         {
             try
             {
+                unitOfWork.BeginTransaction();
+
                 await planosService.ExcluirAsync(guid, cancellationToken);
+
+                await unitOfWork.CommitAsync(cancellationToken);
             }
             catch (Exception)
             {
+                await unitOfWork.RollbackAsync(cancellationToken);
                 throw;
             }
         }
