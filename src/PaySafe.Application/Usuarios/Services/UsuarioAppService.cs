@@ -1,14 +1,16 @@
 ﻿using Mapster;
+using PaySafe.Application.Common;
 using PaySafe.Application.Usuarios.DataTransfer.Requests;
 using PaySafe.Application.Usuarios.DataTransfer.Responses;
 using PaySafe.Application.Usuarios.Services.Interfaces;
-using PaySafe.Domain.Empresas.Services.Interfaces;
+using PaySafe.Domain.Common;
 using PaySafe.Domain.Usuarios.Commands;
+using PaySafe.Domain.Usuarios.Repositories;
 using PaySafe.Domain.Usuarios.Services.Interfaces;
 
 namespace PaySafe.Application.Usuarios.Services
 {
-    public class UsuarioAppService(IUsuariosService usuariosService, IEmpresasService empresasService) : IUsuariosAppService
+    public class UsuarioAppService(IUsuariosService usuariosService, IUsuariosRepository usuariosRepository) : IUsuariosAppService
     {
         public async Task<UsuarioResponse> InserirAsync(UsuarioInserirRequest request, CancellationToken cancellationToken)
         {
@@ -65,6 +67,32 @@ namespace PaySafe.Application.Usuarios.Services
             catch (Exception ex)
             {
                 throw new ApplicationException("Um erro ocorreu ao tentar excluir o usuario.", ex);
+            }
+        }
+
+        public async Task<PaginacaoResponse<UsuarioResponse>> ListarComPaginacaoAsync(UsuarioListarFiltro filtro, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var (usuarios, total) = await usuariosRepository.ListarComPaginacaoAsync(
+                    filtro,                   
+                    filtro.Pg,
+                    filtro.Qtd,
+                    filtro.OrdenacaoPor ?? "ID",
+                    filtro.Ordenacao,
+                    cancellationToken);
+
+                return new PaginacaoResponse<UsuarioResponse>
+                {
+                    Pg = filtro.Pg,
+                    Qtd = filtro.Qtd,
+                    Total = total,
+                    Itens = usuarios.Adapt<IEnumerable<UsuarioResponse>>()
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Um erro ocorreu ao tentar listar os usuários com paginação.", ex);
             }
         }
     }

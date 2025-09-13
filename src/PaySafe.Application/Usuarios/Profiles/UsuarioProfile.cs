@@ -10,7 +10,9 @@ namespace PaySafe.Application.Usuarios.Profiles
     {
         public void Register(TypeAdapterConfig config)
         {
-            config.NewConfig<Usuario, UsuarioResponse>();
+            config.NewConfig<Usuario, UsuarioResponse>()
+                .Map(dest => dest.Empresa, src => src.Empresa.Guid);
+
             config.NewConfig<UsuarioEditarRequest, UsuarioEditarCommand>();
             config.NewConfig<UsuarioInserirRequest, UsuarioInserirCommand>();
         }

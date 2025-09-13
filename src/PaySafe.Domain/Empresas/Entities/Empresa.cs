@@ -28,6 +28,8 @@ namespace PaySafe.Domain.Empresas.Entities
         {
             if (string.IsNullOrWhiteSpace(razaoSocial))
                 throw new ArgumentNullException(nameof(razaoSocial));
+
+            RazaoSocial = razaoSocial;
         }
 
         public virtual void SetNomeFantasia(string nomeFantasia)

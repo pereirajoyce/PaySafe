@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PaySafe.Application.Common;
 using PaySafe.Application.Usuarios.DataTransfer.Requests;
 using PaySafe.Application.Usuarios.DataTransfer.Responses;
 using PaySafe.Application.Usuarios.Services.Interfaces;
@@ -58,6 +59,17 @@ namespace PaySafe.API.Controllers.Usuarios
         {
             await _usuariosAppService.ExcluirAsync(guid, cancellationToken);
             return NoContent();
+        }
+
+        /// <summary>
+        /// Listagem de usuários com paginação.
+        /// </summary>
+        [HttpGet()]
+        [ProducesResponseType<PaginacaoResponse<UsuarioResponse>>(StatusCodes.Status200OK)]
+        public async Task<IActionResult> ListarComPaginacaoAsync([FromQuery] UsuarioListarFiltro filtro, CancellationToken cancellationToken)
+        {
+            var response = await _usuariosAppService.ListarComPaginacaoAsync(filtro, cancellationToken);
+            return Ok(response);
         }
     }
 }

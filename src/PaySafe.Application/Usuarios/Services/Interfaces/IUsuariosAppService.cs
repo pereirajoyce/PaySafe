@@ -1,4 +1,5 @@
-﻿using PaySafe.Application.Usuarios.DataTransfer.Requests;
+﻿using PaySafe.Application.Common;
+using PaySafe.Application.Usuarios.DataTransfer.Requests;
 using PaySafe.Application.Usuarios.DataTransfer.Responses;
 
 namespace PaySafe.Application.Usuarios.Services.Interfaces
@@ -8,6 +9,7 @@ namespace PaySafe.Application.Usuarios.Services.Interfaces
         Task<UsuarioResponse> InserirAsync(UsuarioInserirRequest request, CancellationToken cancellationToken);
         Task<UsuarioResponse> EditarAsync(Guid guid, UsuarioEditarRequest request, CancellationToken cancellationToken);
         Task<UsuarioResponse> RecuperarAsync(Guid guid, CancellationToken cancellationToken);
+        Task<PaginacaoResponse<UsuarioResponse>> ListarComPaginacaoAsync(UsuarioListarFiltro filtro, CancellationToken cancellationToken);
         Task ExcluirAsync(Guid guid, CancellationToken cancellationToken);
     }
 }
