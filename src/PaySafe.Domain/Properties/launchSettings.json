@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Perfil 1": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\PC\\Desktop\\PaySafe\\src\\Apps\\PaySafe.API\\PaySafe.API.csproj"
+    }
+  }
+}

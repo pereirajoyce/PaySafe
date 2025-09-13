@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PaySafe.Application.Common.Consultas.DataTransfer.Responses;
 using PaySafe.Application.Empresas.DataTransfer.Requests;
 using PaySafe.Application.Empresas.DataTransfer.Responses;
 using PaySafe.Application.Empresas.Services.Interfaces;
+using PaySafe.Application.Usuarios.DataTransfer.Requests;
+using PaySafe.Application.Usuarios.DataTransfer.Responses;
 
 namespace PaySafe.API.Controllers.Empresas
 {
@@ -28,6 +31,17 @@ namespace PaySafe.API.Controllers.Empresas
         }
 
         /// <summary>
+        /// Atualiza os dados de uma empresa existente.
+        /// </summary>
+        [HttpPut("{guid}")]
+        [ProducesResponseType<EmpresaResponse>(StatusCodes.Status200OK)]
+        public async Task<IActionResult> EditarAsync([FromRoute] Guid guid, EmpresaEditarRequest request, CancellationToken cancellationToken)
+        {
+            var empresa = await _empresasAppService.EditarAsync(guid, request, cancellationToken);
+            return Ok(empresa);
+        }
+
+        /// <summary>
         /// Recupera uma empresa pelo seu GUID.
         /// </summary>
         [HttpGet("{guid}")]
@@ -39,14 +53,14 @@ namespace PaySafe.API.Controllers.Empresas
         }
 
         /// <summary>
-        /// Atualiza os dados de uma empresa existente.
+        /// Listagem de empresas com paginação.
         /// </summary>
-        [HttpPut("{guid}")]
-        [ProducesResponseType<EmpresaResponse>(StatusCodes.Status200OK)]
-        public async Task<IActionResult> EditarAsync([FromRoute] Guid guid, EmpresaEditarRequest request, CancellationToken cancellationToken)
+        [HttpGet()]
+        [ProducesResponseType<PaginacaoResponse<EmpresaResponse>>(StatusCodes.Status200OK)]
+        public async Task<IActionResult> ListarComPaginacaoAsync([FromQuery] EmpresaListarFiltroRequest filtro, CancellationToken cancellationToken)
         {
-            var empresa = await _empresasAppService.EditarAsync(guid, request, cancellationToken);
-            return Ok(empresa);
+            var response = await _empresasAppService.ListarComPaginacaoAsync(filtro, cancellationToken);
+            return Ok(response);
         }
 
         /// <summary>

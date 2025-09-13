@@ -19,7 +19,7 @@ namespace PaySafe.Infrastructure.Usuarios.Mapping
             Component(x => x.Cpf, cpf => { cpf.Map(c => c.Numero).Column("CPF").Not.Nullable(); });
             Component(x => x.Email, email => { email.Map(e => e.Endereco).Column("EMAIL").Not.Nullable(); });
 
-            References(x => x.Empresa).Columns("EMPRESA");
+            References(x => x.Empresa).Columns("EMPRESA_ID");
         }
     }
 }

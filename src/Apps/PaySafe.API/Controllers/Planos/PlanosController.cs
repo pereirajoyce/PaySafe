@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PaySafe.Application.Common.Consultas.DataTransfer.Responses;
 using PaySafe.Application.Planos.DataTransfer.Requests;
 using PaySafe.Application.Planos.DataTransfer.Responses;
 using PaySafe.Application.Planos.Services.Interfaces;
@@ -17,17 +18,6 @@ namespace PaySafe.API.Controllers.Planos
         }
 
         /// <summary>
-        /// Atualiza os dados de um plano existente.
-        /// </summary>
-        [HttpPut("{guid}")]
-        [ProducesResponseType<PlanoResponse>(StatusCodes.Status200OK)]
-        public async Task<IActionResult> EditarAsync([FromRoute] Guid guid, [FromBody] PlanoEditarRequest request, CancellationToken cancellationToken)
-        {
-            var plano = await _planosAppService.EditarAsync(guid, request, cancellationToken);
-            return Ok(plano);
-        }
-
-        /// <summary>
         /// Cria um novo plano.
         /// </summary>
         [HttpPost]
@@ -35,6 +25,17 @@ namespace PaySafe.API.Controllers.Planos
         public async Task<IActionResult> InserirAsync([FromBody] PlanoInserirRequest request, CancellationToken cancellationToken)
         {
             var plano = await _planosAppService.InserirAsync(request, cancellationToken);
+            return Ok(plano);
+        }
+
+        /// <summary>
+        /// Atualiza os dados de um plano existente.
+        /// </summary>
+        [HttpPut("{guid}")]
+        [ProducesResponseType<PlanoResponse>(StatusCodes.Status200OK)]
+        public async Task<IActionResult> EditarAsync([FromRoute] Guid guid, [FromBody] PlanoEditarRequest request, CancellationToken cancellationToken)
+        {
+            var plano = await _planosAppService.EditarAsync(guid, request, cancellationToken);
             return Ok(plano);
         }
 
@@ -47,6 +48,17 @@ namespace PaySafe.API.Controllers.Planos
         {
             var plano = await _planosAppService.RecuperarAsync(guid, cancellationToken);
             return Ok(plano);
+        }
+
+        /// <summary>
+        /// Listagem de planos com paginação.
+        /// </summary>
+        [HttpGet()]
+        [ProducesResponseType<PaginacaoResponse<PlanoResponse>>(StatusCodes.Status200OK)]
+        public async Task<IActionResult> ListarComPaginacaoAsync([FromQuery] PlanoListarFiltroRequest filtro, CancellationToken cancellationToken)
+        {
+            var response = await _planosAppService.ListarComPaginacaoAsync(filtro, cancellationToken);
+            return Ok(response);
         }
 
         /// <summary>

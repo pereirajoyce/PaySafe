@@ -8,6 +8,7 @@ namespace PaySafe.Domain.Usuarios.Commands
         public virtual string Sobrenome { get; protected set; }
         public virtual Cpf Cpf { get; protected set; }
         public virtual Email Email { get; protected set; }
+        public Guid Empresa { get; protected set; }
         public virtual string Telefone { get; protected set; }
     }
 }

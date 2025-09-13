@@ -7,7 +7,7 @@ namespace PaySafe.Infrastructure.Empresas.Mapping
     {
         public EmpresaMap()
         {
-            Table("Empresas");
+            Table("Empresa");
             Not.LazyLoad();
             Id(x => x.Id).GeneratedBy.Identity();
             Map(x => x.Guid).Column("GUID").Not.Nullable().Unique();
@@ -17,7 +17,7 @@ namespace PaySafe.Infrastructure.Empresas.Mapping
 
             Component(x => x.Cnpj, cnpj => { cnpj.Map(c => c.Numero).Column("CNPJ").Not.Nullable(); });
 
-            References(x => x.Plano).Column("PLANO").Not.Nullable();
+            References(x => x.Plano).Column("PLANO_ID").Not.Nullable();
         }
     }
 }

@@ -1,7 +1,5 @@
 ﻿using Mapster;
 using Microsoft.Extensions.DependencyInjection;
-using PaySafe.Application.Empresas.Services.Interfaces;
-using PaySafe.Application.Planos.Services;
 using PaySafe.Application.Planos.Services.Interfaces;
 
 namespace PaySafe.IoC.Configurations.Mapster
