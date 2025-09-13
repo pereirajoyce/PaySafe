@@ -1,5 +1,5 @@
 ﻿using Mapster;
-using PaySafe.Application.Common;
+using PaySafe.Application.Common.Consultas.DataTransfer.Responses;
 using PaySafe.Application.Usuarios.DataTransfer.Requests;
 using PaySafe.Application.Usuarios.DataTransfer.Responses;
 using PaySafe.Application.Usuarios.Services.Interfaces;
@@ -70,7 +70,7 @@ namespace PaySafe.Application.Usuarios.Services
             }
         }
 
-        public async Task<PaginacaoResponse<UsuarioResponse>> ListarComPaginacaoAsync(UsuarioListarFiltro filtro, CancellationToken cancellationToken)
+        public async Task<PaginacaoResponse<UsuarioResponse>> ListarComPaginacaoAsync(UsuarioListarFiltroRequest filtro, CancellationToken cancellationToken)
         {
             try
             {
@@ -78,7 +78,7 @@ namespace PaySafe.Application.Usuarios.Services
                     filtro,                   
                     filtro.Pg,
                     filtro.Qtd,
-                    filtro.OrdenacaoPor ?? "ID",
+                    filtro.OrdenacaoPor ?? "Id",
                     filtro.Ordenacao,
                     cancellationToken);
 

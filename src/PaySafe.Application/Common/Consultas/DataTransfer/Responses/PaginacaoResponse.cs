@@ -1,4 +1,4 @@
-﻿namespace PaySafe.Application.Common
+﻿namespace PaySafe.Application.Common.Consultas.DataTransfer.Responses
 {
     public class PaginacaoResponse<T>
     {
