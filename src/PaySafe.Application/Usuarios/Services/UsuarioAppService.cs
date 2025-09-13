@@ -22,9 +22,9 @@ namespace PaySafe.Application.Usuarios.Services
 
                 return response.Adapt<UsuarioResponse>();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new ApplicationException("Um erro ocorreu ao tentar inserir o usuario.", ex);
+                throw;
             }
         }
 
@@ -38,9 +38,9 @@ namespace PaySafe.Application.Usuarios.Services
 
                 return response.Adapt<UsuarioResponse>();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new ApplicationException("Um erro ocorreu ao tentar editar o usuario.", ex);
+                throw;
             }
         }
 
@@ -52,9 +52,9 @@ namespace PaySafe.Application.Usuarios.Services
 
                 return response.Adapt<UsuarioResponse>();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new ApplicationException("Um erro ocorreu ao tentar recuperar o usuario.", ex);
+                throw;
             }
         }
 
@@ -64,9 +64,9 @@ namespace PaySafe.Application.Usuarios.Services
             {
                 await usuariosService.ExcluirAsync(guid, cancellationToken);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new ApplicationException("Um erro ocorreu ao tentar excluir o usuario.", ex);
+                throw;
             }
         }
 
@@ -90,9 +90,9 @@ namespace PaySafe.Application.Usuarios.Services
                     Itens = usuarios.Adapt<IEnumerable<UsuarioResponse>>()
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new ApplicationException("Um erro ocorreu ao tentar listar os usuários com paginação.", ex);
+                throw;
             }
         }
     }

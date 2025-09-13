@@ -1,4 +1,5 @@
-﻿using PaySafe.Domain.Empresas.Commands;
+﻿using PaySafe.CrossCutting.Exceptions;
+using PaySafe.Domain.Empresas.Commands;
 using PaySafe.Domain.Empresas.Entities;
 using PaySafe.Domain.Empresas.Repositories;
 using PaySafe.Domain.Empresas.Services.Interfaces;
@@ -37,7 +38,7 @@ namespace PaySafe.Domain.Empresas.Services
             var empresa =  await empresasRepository.RecuperarAsync(guid, cancellationToken);
 
             if (empresa == null)
-                throw new KeyNotFoundException("Empresa não encontrada.");
+                throw new RecursoNaoEncontradoException(nameof(empresa));
 
             return empresa;
         }

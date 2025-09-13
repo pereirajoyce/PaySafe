@@ -1,4 +1,5 @@
-﻿using PaySafe.Domain.Planos.Commands;
+﻿using PaySafe.CrossCutting.Exceptions;
+using PaySafe.Domain.Planos.Commands;
 using PaySafe.Domain.Planos.Entities;
 using PaySafe.Domain.Planos.Repositories;
 using PaySafe.Domain.Planos.Services.Interfaces;
@@ -13,7 +14,7 @@ namespace PaySafe.Domain.Planos.Services
             var plano = await planosRepository.RecuperarAsync(guid, cancellationToken);
 
             if (plano is null)
-                throw new ArgumentNullException(nameof(plano));
+                throw new RecursoNaoEncontradoException(nameof(plano));
 
             plano.SetNome(command.Nome ?? plano.Nome);
             plano.SetVolume(command.Volume ?? plano.Volume);
@@ -45,7 +46,7 @@ namespace PaySafe.Domain.Planos.Services
             var plano = await planosRepository.RecuperarAsync(guid, cancellationToken);
 
             if (plano is null)
-                throw new KeyNotFoundException("Plano não encontrado.");
+                throw new RecursoNaoEncontradoException(nameof(plano));
 
             return plano;
         }
@@ -55,7 +56,7 @@ namespace PaySafe.Domain.Planos.Services
             var plano = await planosRepository.RecuperarAsync(guid, cancellationToken);
 
             if (plano is null)
-                throw new ArgumentNullException(nameof(plano));
+                throw new RecursoNaoEncontradoException(nameof(plano));
 
             await planosRepository.ExcluirAsync(plano, cancellationToken);
         }

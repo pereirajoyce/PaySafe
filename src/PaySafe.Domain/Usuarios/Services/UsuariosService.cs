@@ -1,4 +1,5 @@
-﻿using PaySafe.Domain.Empresas.Entities;
+﻿using PaySafe.CrossCutting.Exceptions;
+using PaySafe.Domain.Empresas.Entities;
 using PaySafe.Domain.Empresas.Services.Interfaces;
 using PaySafe.Domain.Usuarios.Commands;
 using PaySafe.Domain.Usuarios.Entities;
@@ -56,7 +57,7 @@ namespace PaySafe.Domain.Usuarios.Services
             Usuario usuario = await usuariosRepository.RecuperarAsync(guid, cancellationToken);
 
             if (usuario == null || usuario.Excluido)
-                throw new KeyNotFoundException("Usuário não encontrado.");
+                throw new RecursoNaoEncontradoException(nameof(usuario));
 
             return usuario;
         }

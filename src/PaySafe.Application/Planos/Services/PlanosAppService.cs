@@ -22,9 +22,9 @@ namespace PaySafe.Application.Planos.Services
 
                 return plano.Adapt<PlanoResponse>();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new ApplicationException("Um erro ocorreu ao tentar editar o Plano.", ex);
+                throw;
             }
         }
 
@@ -38,9 +38,10 @@ namespace PaySafe.Application.Planos.Services
 
                 return plano.Adapt<PlanoResponse>();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new ApplicationException("Um erro ocorreu ao tentar inserir o Plano.", ex);
+
+                throw;
             }
         }
 
@@ -52,9 +53,9 @@ namespace PaySafe.Application.Planos.Services
 
                 return plano.Adapt<PlanoResponse>();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new ApplicationException("Um erro ocorreu ao tentar recuperar o Plano.", ex);
+                throw;
             }
         }
 
@@ -64,9 +65,9 @@ namespace PaySafe.Application.Planos.Services
             {
                 await planosService.ExcluirAsync(guid, cancellationToken);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new ApplicationException("Um erro ocorreu ao tentar excluir o Plano.", ex);
+                throw;
             }
         }
 
@@ -90,9 +91,9 @@ namespace PaySafe.Application.Planos.Services
                     Itens = planos.Adapt<IEnumerable<PlanoResponse>>()
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new ApplicationException("Um erro ocorreu ao tentar listar os usuários com paginação.", ex);
+                throw;
             }
         }
     }

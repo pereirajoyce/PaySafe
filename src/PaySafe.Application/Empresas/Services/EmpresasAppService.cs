@@ -19,9 +19,9 @@ namespace PaySafe.Application.Empresas.Services
 
                 return response.Adapt<EmpresaResponse>();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new ApplicationException("Um erro ocorreu ao tentar recuperar a empresa.", ex);
+                throw;
             }
         }
 
@@ -36,9 +36,9 @@ namespace PaySafe.Application.Empresas.Services
                 return response.Adapt<EmpresaResponse>();
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new ApplicationException("Um erro ocorreu ao tentar criar uma empresa.", ex);
+                throw;
             }
         }
 
@@ -52,9 +52,9 @@ namespace PaySafe.Application.Empresas.Services
 
                 return response.Adapt<EmpresaResponse>();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new ApplicationException("Um erro ocorreu ao tentar editar uma empresa.", ex);
+                throw;
             }
         }
 
@@ -64,9 +64,9 @@ namespace PaySafe.Application.Empresas.Services
             {
                 await empresasService.ExcluirAsync(guid, cancellationToken);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new ApplicationException("Um erro ocorreu ao tentar excluir a empresa.", ex);
+                throw;
             }
         }
 
@@ -90,9 +90,9 @@ namespace PaySafe.Application.Empresas.Services
                     Itens = empresas.Adapt<IEnumerable<EmpresaResponse>>()
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new ApplicationException("Um erro ocorreu ao tentar listar os usuários com paginação.", ex);
+                throw;
             }
         }
     }

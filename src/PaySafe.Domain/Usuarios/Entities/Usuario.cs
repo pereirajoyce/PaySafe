@@ -1,4 +1,5 @@
-﻿using PaySafe.Domain.Empresas.Entities;
+﻿using PaySafe.CrossCutting.Exceptions;
+using PaySafe.Domain.Empresas.Entities;
 using PaySafe.Domain.Usuarios.Commands;
 using PaySafe.Domain.ValueObjects;
 
@@ -31,7 +32,7 @@ namespace PaySafe.Domain.Usuarios.Entities
         public virtual void SetNome(string nome)
         {
             if (string.IsNullOrWhiteSpace(nome))
-                throw new ArgumentException("Nome não pode ser vazio ou nulo.", nameof(nome));
+                throw new AtributoObrigatorioException(nameof(nome));
 
             Nome = nome;
         }
@@ -39,7 +40,7 @@ namespace PaySafe.Domain.Usuarios.Entities
         public virtual void SetSobrenome(string sobrenome)
         {
             if (string.IsNullOrWhiteSpace(sobrenome))
-                throw new ArgumentException("Sobrenome não pode ser vazio ou nulo.", nameof(sobrenome));
+                throw new AtributoObrigatorioException(nameof(sobrenome));
 
             Sobrenome = sobrenome;
         }
