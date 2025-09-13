@@ -1,4 +1,6 @@
-﻿namespace PaySafe.Domain.ValueObjects
+﻿using PaySafe.CrossCutting.Exceptions;
+
+namespace PaySafe.Domain.ValueObjects
 {
     public class Cpf
     {
@@ -9,7 +11,7 @@
         public Cpf(string numero)
         {
             if (string.IsNullOrEmpty(numero) || !ValidarCpf(numero))
-                throw new ArgumentException("CPF inválido.");
+                throw new AtributoInvalidoException(nameof(numero));
 
             Numero = numero;
         }
