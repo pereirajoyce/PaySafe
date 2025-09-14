@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="XPlat Code Coverage" uri="datacollector://Microsoft/CodeCoverage/2.0" assemblyQualifiedName="Microsoft.CodeCoverage.DataCollectors.DotNetDataCollector, Microsoft.CodeCoverage, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+        <Configuration>
+          <Format>cobertura</Format>
+          <Include>
+            <Sources>**/PaySafe.Domain/*/Entities/**</Sources>
+            <Sources>**/PaySafe.Domain/*/Services/**</Sources>
+          </Include>
+          <Exclude>
+            <Sources>**/PaySafe.Domain/*/Commands/**</Sources>
+            <Sources>**/PaySafe.Domain/ValueObjects/**</Sources>
+            <Sources>**/PaySafe.Domain/Common/**</Sources>
+          </Exclude>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+</RunSettings>
