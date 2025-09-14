@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using PaySafe.CrossCutting.Exceptions;
+using System.Text.RegularExpressions;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PaySafe.Domain.ValueObjects
 {
@@ -11,7 +13,7 @@ namespace PaySafe.Domain.ValueObjects
         public Email(string endereco)
         {
             if (string.IsNullOrEmpty(endereco) || !ValidarEmail(endereco))
-                throw new ArgumentException("E-mail inválido.");
+                throw new AtributoInvalidoException(nameof(endereco));
 
             Endereco = endereco;
         }

@@ -1,4 +1,6 @@
-﻿namespace PaySafe.Domain.ValueObjects
+﻿using PaySafe.CrossCutting.Exceptions;
+
+namespace PaySafe.Domain.ValueObjects
 {
     public class Cnpj
     {
@@ -11,7 +13,7 @@
             numero = Normalizar(numero);
 
             if (!ValidarCnpj(numero))
-                throw new ArgumentException("CNPJ inválido.", nameof(numero));
+                throw new AtributoInvalidoException(nameof(numero));
 
             Numero = numero;
         }

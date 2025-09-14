@@ -8,14 +8,8 @@ namespace PaySafe.API.Controllers.Usuarios
 {
     [Route("api/usuarios")]
     [ApiController]
-    public class UsuariosController : Controller
+    public class UsuariosController(IUsuariosAppService usuariosAppService) : Controller
     {
-        private readonly IUsuariosAppService _usuariosAppService;
-
-        public UsuariosController(IUsuariosAppService usuariosAppService)
-        {
-            _usuariosAppService = usuariosAppService;
-        }
 
         /// <summary>
         /// Cria um novo usuário.
@@ -24,7 +18,7 @@ namespace PaySafe.API.Controllers.Usuarios
         [ProducesResponseType<UsuarioResponse>(StatusCodes.Status201Created)]
         public async Task<IActionResult> InserirAsync([FromBody] UsuarioInserirRequest request, CancellationToken cancellationToken)
         {
-            var usuario = await _usuariosAppService.InserirAsync(request, cancellationToken);
+            var usuario = await usuariosAppService.InserirAsync(request, cancellationToken);
             return Ok(usuario);
         }
 
@@ -35,7 +29,7 @@ namespace PaySafe.API.Controllers.Usuarios
         [ProducesResponseType<UsuarioResponse>(StatusCodes.Status200OK)]
         public async Task<IActionResult> EditarAsync([FromRoute] Guid guid, [FromBody] UsuarioEditarRequest request, CancellationToken cancellationToken)
         {
-            var usuario = await _usuariosAppService.EditarAsync(guid, request, cancellationToken);
+            var usuario = await usuariosAppService.EditarAsync(guid, request, cancellationToken);
             return Ok(usuario);
         }
 
@@ -46,7 +40,7 @@ namespace PaySafe.API.Controllers.Usuarios
         [ProducesResponseType<UsuarioResponse>(StatusCodes.Status200OK)]
         public async Task<IActionResult> RecuperarAsync([FromRoute] Guid guid, CancellationToken cancellationToken)
         {
-            var usuario = await _usuariosAppService.RecuperarAsync(guid, cancellationToken);
+            var usuario = await usuariosAppService.RecuperarAsync(guid, cancellationToken);
             return Ok(usuario);
         }
 
@@ -57,7 +51,7 @@ namespace PaySafe.API.Controllers.Usuarios
         [ProducesResponseType<PaginacaoResponse<UsuarioResponse>>(StatusCodes.Status200OK)]
         public async Task<IActionResult> ListarComPaginacaoAsync([FromQuery] UsuarioListarFiltroRequest filtro, CancellationToken cancellationToken)
         {
-            var response = await _usuariosAppService.ListarComPaginacaoAsync(filtro, cancellationToken);
+            var response = await usuariosAppService.ListarComPaginacaoAsync(filtro, cancellationToken);
             return Ok(response);
         }
 
@@ -68,7 +62,7 @@ namespace PaySafe.API.Controllers.Usuarios
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> ExcluirAsync([FromRoute] Guid guid, CancellationToken cancellationToken)
         {
-            await _usuariosAppService.ExcluirAsync(guid, cancellationToken);
+            await usuariosAppService.ExcluirAsync(guid, cancellationToken);
             return NoContent();
         }
     }

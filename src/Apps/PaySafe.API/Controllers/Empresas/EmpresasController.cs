@@ -3,21 +3,13 @@ using PaySafe.Application.Common.Consultas.DataTransfer.Responses;
 using PaySafe.Application.Empresas.DataTransfer.Requests;
 using PaySafe.Application.Empresas.DataTransfer.Responses;
 using PaySafe.Application.Empresas.Services.Interfaces;
-using PaySafe.Application.Usuarios.DataTransfer.Requests;
-using PaySafe.Application.Usuarios.DataTransfer.Responses;
 
 namespace PaySafe.API.Controllers.Empresas
 {
     [Route("api/empresas")]
     [ApiController]
-    public class EmpresasController : Controller
+    public class EmpresasController(IEmpresasAppService empresasAppService) : Controller
     {
-        private readonly IEmpresasAppService _empresasAppService;
-
-        public EmpresasController(IEmpresasAppService empresasAppService)
-        {
-            _empresasAppService = empresasAppService;
-        }
 
         /// <summary>
         /// Cria uma nova empresa.
@@ -26,7 +18,7 @@ namespace PaySafe.API.Controllers.Empresas
         [ProducesResponseType<EmpresaResponse>(StatusCodes.Status201Created)]
         public async Task<IActionResult> InserirAsync([FromBody] EmpresaInserirRequest request, CancellationToken cancellationToken)
         {
-            var empresa = await _empresasAppService.InserirAsync(request, cancellationToken);
+            var empresa = await empresasAppService.InserirAsync(request, cancellationToken);
             return Ok(empresa);
         }
 
@@ -37,7 +29,7 @@ namespace PaySafe.API.Controllers.Empresas
         [ProducesResponseType<EmpresaResponse>(StatusCodes.Status200OK)]
         public async Task<IActionResult> EditarAsync([FromRoute] Guid guid, EmpresaEditarRequest request, CancellationToken cancellationToken)
         {
-            var empresa = await _empresasAppService.EditarAsync(guid, request, cancellationToken);
+            var empresa = await empresasAppService.EditarAsync(guid, request, cancellationToken);
             return Ok(empresa);
         }
 
@@ -48,7 +40,7 @@ namespace PaySafe.API.Controllers.Empresas
         [ProducesResponseType<EmpresaResponse>(StatusCodes.Status200OK)]
         public async Task<IActionResult> RecuperarAsync([FromRoute] Guid guid, CancellationToken cancellationToken)
         {
-            var empresa = await _empresasAppService.RecuperarAsync(guid, cancellationToken);
+            var empresa = await empresasAppService.RecuperarAsync(guid, cancellationToken);
             return Ok(empresa);
         }
 
@@ -59,7 +51,7 @@ namespace PaySafe.API.Controllers.Empresas
         [ProducesResponseType<PaginacaoResponse<EmpresaResponse>>(StatusCodes.Status200OK)]
         public async Task<IActionResult> ListarComPaginacaoAsync([FromQuery] EmpresaListarFiltroRequest filtro, CancellationToken cancellationToken)
         {
-            var response = await _empresasAppService.ListarComPaginacaoAsync(filtro, cancellationToken);
+            var response = await empresasAppService.ListarComPaginacaoAsync(filtro, cancellationToken);
             return Ok(response);
         }
 
@@ -70,7 +62,7 @@ namespace PaySafe.API.Controllers.Empresas
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> ExcluirAsync([FromRoute] Guid guid, CancellationToken cancellationToken)
         {
-            await _empresasAppService.ExcluirAsync(guid, cancellationToken);
+            await empresasAppService.ExcluirAsync(guid, cancellationToken);
             return NoContent();
         }
     }
