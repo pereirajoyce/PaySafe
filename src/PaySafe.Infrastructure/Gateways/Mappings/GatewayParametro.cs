@@ -13,7 +13,7 @@ namespace PaySafe.Infrastructure.Gateways.Mappings
             Id(x => x.Id).GeneratedBy.Identity();
             Map(x => x.Guid).Column("GUID").Not.Nullable().Unique();
             Map(x => x.Chave).Column("CHAVE").Not.Nullable();
-            Map(x => x.Valor).Column("Valor").Not.Nullable();
+            Map(x => x.Valor).Column("VALOR").Not.Nullable();
 
             References(x => x.Gateway).Column("GATEWAY_ID").Not.Nullable();
         }

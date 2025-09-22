@@ -23,6 +23,8 @@ namespace PaySafe.Domain.Gateways.Entities
         {
             if (string.IsNullOrWhiteSpace(chave))
                 throw new AtributoObrigatorioException(nameof(chave));
+
+            Chave = chave;
         }
 
         public virtual void SetValor(string valor)
