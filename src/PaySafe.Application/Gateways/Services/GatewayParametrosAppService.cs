@@ -19,6 +19,8 @@ namespace PaySafe.Application.Gateways.Services
 
                 var gatewayParametro = await gatewayParametrosService.InserirAsync(request.Chave, request.Valor, request.GatewayGuid, cancellationToken);
 
+                await unitOfWork.CommitAsync(cancellationToken);
+
                 return gatewayParametro.Adapt<GatewayParametroResponse>();
 
             }
