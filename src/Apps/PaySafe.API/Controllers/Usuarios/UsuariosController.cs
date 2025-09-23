@@ -8,7 +8,7 @@ namespace PaySafe.API.Controllers.Usuarios
 {
     [Route("api/usuarios")]
     [ApiController]
-    public class UsuariosController(IUsuariosAppService usuariosAppService) : Controller
+    public class UsuariosController(IUsuariosAppService usuariosAppService) : ControllerBase
     {
 
         /// <summary>

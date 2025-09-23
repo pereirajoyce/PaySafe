@@ -8,7 +8,7 @@ namespace PaySafe.API.Controllers.Empresas
 {
     [Route("api/empresas")]
     [ApiController]
-    public class EmpresasController(IEmpresasAppService empresasAppService) : Controller
+    public class EmpresasController(IEmpresasAppService empresasAppService) : ControllerBase
     {
 
         /// <summary>
