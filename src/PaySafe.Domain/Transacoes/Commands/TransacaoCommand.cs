@@ -6,6 +6,7 @@ namespace PaySafe.Domain.Transacoes.Commands
     {
         public int PrecoTotal { get; set; }
         public int Taxa { get; set; }
+        public int Frete { get; set; }
         public string Itens { get; set; }
         public StatusEnum Status { get; set; }
         public Guid EmpresaGuid { get; set; }
