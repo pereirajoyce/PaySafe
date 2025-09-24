@@ -18,15 +18,16 @@
 
 ## Sobre
 
-O **PaySafe** é um microserviço de processamento de pagamentos desenvolvido em .NET Core que oferece uma API robusta e segura para gerenciar transações financeiras. O sistema permite que empresas integrem facilmente funcionalidades de pagamento em suas aplicações, oferecendo suporte a diferentes métodos de pagamento e garantindo a segurança e integridade das transações.
+O **PaySafe** é um serviço de processamento de pagamentos desenvolvido em .NET Core que oferece uma API robusta e segura para gerenciar transações financeiras. O sistema permite que empresas integrem facilmente funcionalidades de pagamento em suas aplicações, oferecendo suporte a diferentes métodos de pagamento e garantindo a segurança e integridade das transações através de um sistema de failback.
 
 ### Principais Funcionalidades
 
-- ✅ Processamento de pagamentos com múltiplos métodos
-- ✅ Gerenciamento de transações e empresas
-- ✅ Validação de dados e tratamento de exceções
-- ✅ Arquitetura limpa e modular
-- ✅ API RESTful com documentação automática
+- Processamento de pagamentos com múltiplos métodos
+- Gerenciamento de transações e empresas
+- Sistema de failback para transações
+- Validação de dados e tratamento de exceções
+- Arquitetura limpa e modular
+- API RESTful com documentação automática
 
 ## Arquitetura
 
@@ -54,8 +55,6 @@ PaySafe/
 - **Transacao**: Gerencia transações com preço total, taxa, frete e itens
 - **Empresa**: Entidade responsável pelas transações
 
-![Diagrama de Arquitetura](docs/diagrama-arquitetura.png)
-
 ## Fluxo de Pagamentos
 
 ### Fluxo Principal
@@ -70,9 +69,6 @@ PaySafe/
 - `POST /api/empresas` - Cadastrar empresa
 - `POST /api/transacoes` - Criar transação
 - `POST /api/pagamentos` - Processar pagamento
-- `GET /api/pagamentos/{guid}` - Consultar pagamento
-- `PUT /api/pagamentos/{guid}` - Atualizar status do pagamento
-- `DELETE /api/pagamentos/{guid}` - Excluir pagamento
 
 ### Métodos de Pagamento Suportados
 
@@ -80,61 +76,13 @@ PaySafe/
 - Cartão de Débito
 - PIX
 - Boleto Bancário
-- Transferência Bancária
 
 ## Responsáveis
 
 | Função | Nome | Contato |
 |--------|------|----------|
-| Tech Lead | Amanda | amanda@empresa.com |
-| Desenvolvedor | [Nome] | [email] |
-| DevOps | [Nome] | [email] |
+| Desenvolvedora | Joyce Pereira | joyce_paiva32@hotmail.com |
 
-**Time**: Equipe PaySafe  
-**Slack**: #paysafe-team
-
-## Links Úteis
-
-| Recurso | Produção | Homologação | QA/Dev |
-|---------|----------|-------------|--------|
-| API | [paysafe-api-prod]() | [paysafe-api-hml]() | [paysafe-api-dev]() |
-| Swagger | [swagger-prod]() | [swagger-hml]() | [swagger-dev]() |
-| Database | - | - | [db-dev]() |
-| Kibana | [logs-prod]() | [logs-hml]() | - |
-| NewRelic | [newrelic-prod]() | [newrelic-hml]() | - |
-| Jenkins | [jenkins-ci]() | - | - |
-| SonarQube | [sonar-analysis]() | - | - |
-
-
-## Monitoramento
-
-**Eventos de log registrados no Kibana**
-
-index: dotnet-\*-paysafe-api-\*
-
-| EventoId | Descrição |
-|----------|----------|
-| PaymentCreated | Pagamento criado com sucesso |
-| PaymentUpdated | Status do pagamento atualizado |
-| TransactionCreated | Nova transação registrada |
-| ValidationError | Erro de validação de dados |
-| PaymentProcessingError | Erro no processamento do pagamento |
-| Exception | Erros com stacktrace disparados pela aplicação |
-
-**Dashboards de monitoramento**
-
-| Dashboard | Link | 
-| ------ | --------- |
-| - | - |
-
-**Alertas**
-
-| Tipo | Stack | Notifica | Link |
-|------|-------|----------|------|
-| % Erros API | NewRelic | Equipe PaySafe | [alert-errors]() |
-| Timeout Pagamentos | NewRelic | Equipe PaySafe | [alert-timeout]() |
-| Falha BD | Kibana | DevOps | [alert-db]() |
-| Taxa de Sucesso < 95% | NewRelic | Tech Lead | [alert-success-rate]() |
 
 ## Tecnologias
 
@@ -151,7 +99,7 @@ index: dotnet-\*-paysafe-api-\*
 ### Ferramentas de Build e Deploy
 - **Cake** - Build automation
 - **Docker** - Containerização
-- **Jenkins** - CI/CD
+- **Azure** - CI/CD
 
 ### Testes e Qualidade
 - **xUnit** - Framework de testes
@@ -235,9 +183,6 @@ build -> testes unitários -> validar cobertura de código (100%) -> análise do
 
 ## FAQ
 
-Existem duas categorias de perguntas que devem ser respondidas aqui. A primeira envolve as perguntas que os desenvolvedores em outras equipes fazer o serviço. A maneira de saber se essas perguntas devem ser incluídas numa FAQ é simples: se alguém fizer uma pergunta e você achar que ela pode ser feita novamente, acrescente-a à lista FAQ. A segunda categoria engloba as perguntas que vêm dos membros da equipe, e a mesma abordagem pode ser adotada: se houver uma pergunta sobre como ou por que ou quando fazer algo relacionado ao serviço, acrescente-a à lista FAQ. 
-
-Vejam os seguintes exemplos:
 
 **1 - Como integrar minha aplicação com o PaySafe?**
 
@@ -248,17 +193,13 @@ A integração é feita através da API REST. Consulte a documentação do Swagg
 
 **2 - Quais métodos de pagamento são suportados?**
 
-Atualmente suportamos: Cartão de Crédito, Cartão de Débito, PIX, Boleto Bancário e Transferência Bancária. Novos métodos podem ser adicionados através do enum `MetodoPagamentoEnum`.
+Atualmente suportamos: Cartão de Crédito, Cartão de Débito, PIX e Boleto Bancário. Novos métodos podem ser adicionados através do enum `MetodoPagamentoEnum`.
 
 **3 - Como funciona o sistema de status?**
 
 Tanto pagamentos quanto transações possuem status que podem ser atualizados ao longo do ciclo de vida. Os status disponíveis estão no enum `StatusEnum`.
 
-**4 - É possível cancelar um pagamento?**
-
-Sim, através do endpoint `DELETE /api/pagamentos/{guid}` ou atualizando o status para "Cancelado" via `PUT /api/pagamentos/{guid}`.
-
-**5 - Como tratar erros na integração?**
+**4 - Como tratar erros na integração?**
 
 A API retorna códigos HTTP padronizados e mensagens de erro estruturadas. Verifique os logs no Kibana para detalhes adicionais sobre falhas.
 
