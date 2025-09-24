@@ -13,6 +13,8 @@ namespace PaySafe.Infrastructure.Usuarios.Mapping
             Map(x => x.Guid).Column("GUID").Not.Nullable();
             Map(x => x.Nome).Column("NOME").Not.Nullable().Length(100);
             Map(x => x.Sobrenome).Column("SOBRENOME").Not.Nullable();
+            Map(x => x.Login).Column("LOGIN").Not.Nullable();
+            Map(x => x.Senha).Column("SENHA").Not.Nullable();
             Map(x => x.Telefone).Column("TELEFONE").Nullable();
             Map(x => x.Excluido).Column("EXCLUIDO").Not.Nullable();
 

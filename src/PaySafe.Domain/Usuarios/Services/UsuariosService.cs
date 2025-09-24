@@ -27,6 +27,8 @@ namespace PaySafe.Domain.Usuarios.Services
 
             usuario.SetNome(command.Nome ?? usuario.Nome);
             usuario.SetSobrenome(command.Sobrenome ?? usuario.Sobrenome);
+            usuario.SetLogin(command.Login ?? usuario.Login);
+            usuario.SetSenha(command.Senha ?? usuario.Senha);
             usuario.SetCpf(command.Cpf ?? usuario.Cpf);
             usuario.SetTelefone(command.Telefone ?? usuario.Telefone);
             usuario.SetEmail(command.Email ?? usuario.Email);
