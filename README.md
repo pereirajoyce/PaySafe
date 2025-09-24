@@ -1,6 +1,6 @@
 # PaySafe
 
-**Checkou de Pagamentos MultiBroker com Roteamento Dinâmico de Transações**
+**Checkout de Pagamentos MultiBroker com Roteamento Dinâmico de Transações**
 
 ## Tabela de Conteúdos
 
