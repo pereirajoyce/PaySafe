@@ -16,8 +16,4 @@
     <ProjectReference Include="..\PaySafe.CrossCutting\PaySafe.CrossCutting.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pagamentos\Services\Interfaces\" />
-  </ItemGroup>
-
 </Project>
