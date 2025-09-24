@@ -11,6 +11,8 @@ namespace PaySafe.Domain.Usuarios.Entities
         public virtual Guid Guid { get; protected set; } = Guid.NewGuid();
         public virtual string Nome { get; protected set; }
         public virtual string Sobrenome { get; protected set; }
+        public virtual string Login { get; protected set; }
+        public virtual string Senha { get; protected set; }
         public virtual Cpf Cpf { get; protected set; }
         public virtual Email Email { get; protected set; }
         public virtual Empresa Empresa { get; protected set; }
@@ -23,6 +25,8 @@ namespace PaySafe.Domain.Usuarios.Entities
         {
             SetNome(command.Nome);
             SetSobrenome(command.Sobrenome);
+            SetLogin(command.Login);
+            SetSenha(command.Senha);
             SetCpf(command.Cpf);
             SetEmpresa(empresa);
             SetTelefone(command.Telefone);
@@ -43,6 +47,22 @@ namespace PaySafe.Domain.Usuarios.Entities
                 throw new AtributoObrigatorioException(nameof(sobrenome));
 
             Sobrenome = sobrenome;
+        }
+
+        public virtual void SetLogin(string login)
+        {
+            if (string.IsNullOrWhiteSpace(login))
+                throw new AtributoObrigatorioException(nameof(login));
+
+            Login = login;
+        }
+
+        public virtual void SetSenha(string senha)
+        {
+            if (string.IsNullOrWhiteSpace(senha))
+                throw new AtributoObrigatorioException(nameof(senha));
+
+            Senha = senha;
         }
 
         public virtual void SetCpf(Cpf cpf)
