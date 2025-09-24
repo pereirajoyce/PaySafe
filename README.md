@@ -1,63 +1,125 @@
-Tabela de conteúdos
-=================
+# PaySafe
 
-* [Sobre](#markdown-header-sobre)
-* [Diagrama de Arquitetura](#markdown-header-diagrama-de-arquitetura)
-* [Fluxo de Solicitações e Dependências](#markdown-header-fluxo-de-solicitacoes-e-dependencias)
-* [Responsáveis](#markdown-header-responsaveis)
-* [Links](#markdown-header-links)
-* [Monitoramento](#markdown-header-monitoramento)
-* [Tecnologias](#markdown-header-tecnologias)
-* [Guia de Bordo](#markdown-header-guia-de-bordo)
-* [FAQ](#markdown-header-faq)
+**Sistema de Processamento de Pagamentos Seguro**
 
-- - -
+## Tabela de Conteúdos
+
+* [Sobre](#sobre)
+* [Arquitetura](#arquitetura)
+* [Fluxo de Pagamentos](#fluxo-de-pagamentos)
+* [Responsáveis](#responsáveis)
+* [Links Úteis](#links-úteis)
+* [Monitoramento](#monitoramento)
+* [Tecnologias](#tecnologias)
+* [Guia de Desenvolvimento](#guia-de-desenvolvimento)
+* [FAQ](#faq)
+
+---
+
 ## Sobre
 
-A documentação de cada serviço deve começar com uma descrição do serviço. Ela deve ser curta, cativante e objetiva. Isso é essencial, pois garante que qualquer pessoa que encontrar a documentação saberá qual o papel desempenhado pelo serviço em nosso ecossistema de aplicações.
+O **PaySafe** é um microserviço de processamento de pagamentos desenvolvido em .NET Core que oferece uma API robusta e segura para gerenciar transações financeiras. O sistema permite que empresas integrem facilmente funcionalidades de pagamento em suas aplicações, oferecendo suporte a diferentes métodos de pagamento e garantindo a segurança e integridade das transações.
 
-## Diagrama de Arquitetura
+### Principais Funcionalidades
 
-É quase impossível entender como e por que um serviço funciona apenas lendo o seu código, portanto um diagram de arquitetura bem desenhado é uma descrição visual e um resumo de fácil entendimento de um serviço. Este diagram deve detalhar a arquitetura do serviço, incluindo seus componentes, seus endpoints, o fluxo de solicitações, suas dependências e informações sobre quaisquer databases, caches e message brokers e etc. 
+- ✅ Processamento de pagamentos com múltiplos métodos
+- ✅ Gerenciamento de transações e empresas
+- ✅ Validação de dados e tratamento de exceções
+- ✅ Arquitetura limpa e modular
+- ✅ API RESTful com documentação automática
 
-Dê uma olhada neste exemplo:
+## Arquitetura
 
-![Alt text](docs/diagrama-arquitetura.png)
+O PaySafe segue os princípios da **Clean Architecture**, organizando o código em camadas bem definidas:
 
-## Fluxo de Solicitações e Dependências
+```
+PaySafe/
+├── src/
+│   ├── PaySafe.API/              # Camada de apresentação (Controllers, Middleware)
+│   ├── PaySafe.Application/       # Casos de uso e regras de aplicação
+│   ├── PaySafe.Domain/           # Entidades e regras de negócio
+│   │   ├── Pagamentos/           # Domínio de pagamentos
+│   │   ├── Transacoes/           # Domínio de transações
+│   │   └── Empresas/             # Domínio de empresas
+│   ├── PaySafe.Infrastructure/   # Acesso a dados e serviços externos
+│   ├── PaySafe.CrossCutting/     # Utilitários e cross-cutting concerns
+│   └── PaySafe.IoC/             # Configuração de dependências
+└── tests/
+    └── PaySafe.Domain.Tests/     # Testes unitários
+```
 
-A documentação do fluxo de solicitações pode conter um diagrama dos fluxos de solicitações da aplicação. Qualquer diagrama deve ser acompanhado por uma descrição qualitativa dos tipos de solicitações que são feitas para o serviço e como elas são tratadas.
-			
-As informações sobre as dependências do serviço podem conter os endpoints relevantes dessas dependências e quaisquer solicitações que o serviço faça a elas, juntos das informações sobre seus SLAs, de quaisquesr alternativas/caches/backups em caso de falha e dos links para sua documentação e seus dashboards.
+### Principais Entidades
+
+- **Pagamento**: Representa um pagamento com método, valor e status
+- **Transacao**: Gerencia transações com preço total, taxa, frete e itens
+- **Empresa**: Entidade responsável pelas transações
+
+![Diagrama de Arquitetura](docs/diagrama-arquitetura.png)
+
+## Fluxo de Pagamentos
+
+### Fluxo Principal
+
+1. **Criação de Empresa** - Cadastro da empresa no sistema
+2. **Criação de Transação** - Registro da transação com itens, preços e taxas
+3. **Processamento de Pagamento** - Vinculação do pagamento à transação
+4. **Validação e Confirmação** - Verificação e atualização do status
+
+### Endpoints Principais
+
+- `POST /api/empresas` - Cadastrar empresa
+- `POST /api/transacoes` - Criar transação
+- `POST /api/pagamentos` - Processar pagamento
+- `GET /api/pagamentos/{guid}` - Consultar pagamento
+- `PUT /api/pagamentos/{guid}` - Atualizar status do pagamento
+- `DELETE /api/pagamentos/{guid}` - Excluir pagamento
+
+### Métodos de Pagamento Suportados
+
+- Cartão de Crédito
+- Cartão de Débito
+- PIX
+- Boleto Bancário
+- Transferência Bancária
 
 ## Responsáveis
 
-Essa seção deve conter os nomes, os cargos, times e as informações de contato do time responsável pelo serviço. Essas informações são úteis, por exemplo, quando um desenvolvedor tem problemas relativos a uma de suas depedências: saber quem contatar e qual o seu papel na equipe torna a comunicação entre equipes fácil e eficiente.
+| Função | Nome | Contato |
+|--------|------|----------|
+| Tech Lead | Amanda | amanda@empresa.com |
+| Desenvolvedor | [Nome] | [email] |
+| DevOps | [Nome] | [email] |
 
-## Links
+**Time**: Equipe PaySafe  
+**Slack**: #paysafe-team
 
-Quaisquer informação extras que possam ser úteis para o desenvolvedor devem ser incluídas aqui.
+## Links Úteis
 
-|   | Prod | Hml | Qa  
-| ------------- | :-------------: | :-------------: | :-------------: |
-| API  | [link]() | [link]() | [link]()
-| Jobs  | - | - | [link](https://jobs-qa.autoglass.com.br/sms)
-| Kibana | [link](https://logs.autoglass.com.br) | [link](https://logs-hml.autoglass.com.br) | -
-| NewRelic | - | - | -
-| Jenkins | [link]() | - | - |
-| SonarQube | [link]() | - | - |
+| Recurso | Produção | Homologação | QA/Dev |
+|---------|----------|-------------|--------|
+| API | [paysafe-api-prod]() | [paysafe-api-hml]() | [paysafe-api-dev]() |
+| Swagger | [swagger-prod]() | [swagger-hml]() | [swagger-dev]() |
+| Database | - | - | [db-dev]() |
+| Kibana | [logs-prod]() | [logs-hml]() | - |
+| NewRelic | [newrelic-prod]() | [newrelic-hml]() | - |
+| Jenkins | [jenkins-ci]() | - | - |
+| SonarQube | [sonar-analysis]() | - | - |
 
 
 ## Monitoramento
 
 **Eventos de log registrados no Kibana**
 
-index: dotnet-\*-template-dotnetcore-api-\*
+index: dotnet-\*-paysafe-api-\*
 
 | EventoId | Descrição |
-| ------ | --------- |
-| - | - |
-| Exception | Erros com stackatrace que são disparados pela a aplicação|
+|----------|----------|
+| PaymentCreated | Pagamento criado com sucesso |
+| PaymentUpdated | Status do pagamento atualizado |
+| TransactionCreated | Nova transação registrada |
+| ValidationError | Erro de validação de dados |
+| PaymentProcessingError | Erro no processamento do pagamento |
+| Exception | Erros com stacktrace disparados pela aplicação |
 
 **Dashboards de monitoramento**
 
@@ -67,53 +129,101 @@ index: dotnet-\*-template-dotnetcore-api-\*
 
 **Alertas**
 
-| Tipo | Stack | Notifica |  |
-| ---- | ----- | -------- | ---- |
-| % Erros | NewRelic | Arquitetura de Software | [link]()
+| Tipo | Stack | Notifica | Link |
+|------|-------|----------|------|
+| % Erros API | NewRelic | Equipe PaySafe | [alert-errors]() |
+| Timeout Pagamentos | NewRelic | Equipe PaySafe | [alert-timeout]() |
+| Falha BD | Kibana | DevOps | [alert-db]() |
+| Taxa de Sucesso < 95% | NewRelic | Tech Lead | [alert-success-rate]() |
 
 ## Tecnologias
 
-Lista de tecnologias utilizadas no projeto
+### Backend
+- **.NET 8.0** - Framework principal
+- **C#** - Linguagem de programação
+- **ASP.NET Core Web API** - API REST
+- **Entity Framework Core** - ORM para acesso a dados
 
-## Guia de Bordo
+### Banco de Dados
+- **SQL Server** - Banco principal
+- **Redis** - Cache (se aplicável)
 
-A finalidade desta seção é ajudar um novo desenvolvedor a entrar na equipe, começar a contribuir com código, adicionar recursos ao serviço, introduzir novas alterações no pipeline de deployment e etc.
+### Ferramentas de Build e Deploy
+- **Cake** - Build automation
+- **Docker** - Containerização
+- **Jenkins** - CI/CD
 
-Veja os exemplos:
+### Testes e Qualidade
+- **xUnit** - Framework de testes
+- **SonarQube** - Análise de código
+- **Coverlet** - Cobertura de código
 
-**Instalar Cake**
+### Documentação
+- **Swagger/OpenAPI** - Documentação da API
+
+## Guia de Desenvolvimento
+
+### Pré-requisitos
+
+- .NET 8.0 SDK
+- Visual Studio 2022 ou VS Code
+- SQL Server (LocalDB para desenvolvimento)
+- Docker Desktop (opcional)
+- Git
+
+### Configuração do Ambiente
+
+1. **Clone o repositório**
+```bash
+git clone <repository-url>
+cd PaySafe
+```
+
+2. **Restaure as ferramentas**
+
 ```bash
 dotnet tool restore
 ```
 
-**Build**
+3. **Configure a string de conexão** no arquivo `appsettings.Development.json`
 
+### Comandos Úteis
+
+**Build do projeto**
 ```bash
 dotnet cake --target buildsolution
 ```
 
-**Tests**
-
+**Executar testes**
 ```bash
-# Executando testes unitários (powershell)
-
+# Testes unitários
 dotnet cake --target testrun
 
-# Executando a avaliação da cobertura de testes unitários (powershell)
-
+# Relatório de cobertura
 dotnet cake --target testreport
 ```
 
-**Docker**
-
+**Executar a API localmente**
 ```bash
-# Api
-docker build -t template-dotnetcore-api . -f Autoglass.Automacao.API\Dockerfile
-docker container run -e "ASPNETCORE_ENVIRONMENT=Development" -p 5001:5001 template-dotnetcore-api:latest
+dotnet run --project src/Apps/PaySafe.API
+```
 
-# Jobs
-docker build -t template-dotnetcore-jobs . -f Autoglass.Automacao.Jobs\Dockerfile
-docker container run -e "ASPNETCORE_ENVIRONMENT=Development" -p 60000:60000 template-dotnetcore-jobs :latest
+**Docker**
+```bash
+# Build da imagem
+docker build -t paysafe-api . -f src/Apps/PaySafe.API/Dockerfile
+
+# Executar container
+docker run -e "ASPNETCORE_ENVIRONMENT=Development" -p 5001:5001 paysafe-api:latest
+```
+
+### Estrutura de Migrations
+```bash
+# Adicionar migration
+dotnet ef migrations add <NomeMigration> --project PaySafe.Infrastructure
+
+# Aplicar migrations
+dotnet ef database update --project PaySafe.Infrastructure
 ```
 
 **CI**
@@ -129,11 +239,26 @@ Existem duas categorias de perguntas que devem ser respondidas aqui. A primeira 
 
 Vejam os seguintes exemplos:
 
-**1 - Como posso integrar a minha aplicação com este microservice?**
+**1 - Como integrar minha aplicação com o PaySafe?**
 
-A integração pode ser realizada através....
+A integração é feita através da API REST. Consulte a documentação do Swagger em `/swagger` para ver todos os endpoints disponíveis. É necessário:
+- Cadastrar a empresa no sistema
+- Criar transações antes de processar pagamentos
+- Usar os GUIDs para referenciar entidades
 
-**2 - É possível fazer a integração de forma assíncrona?**
+**2 - Quais métodos de pagamento são suportados?**
 
-Sim. Basta apenas consumir o topic "xpto" no SQS...
+Atualmente suportamos: Cartão de Crédito, Cartão de Débito, PIX, Boleto Bancário e Transferência Bancária. Novos métodos podem ser adicionados através do enum `MetodoPagamentoEnum`.
+
+**3 - Como funciona o sistema de status?**
+
+Tanto pagamentos quanto transações possuem status que podem ser atualizados ao longo do ciclo de vida. Os status disponíveis estão no enum `StatusEnum`.
+
+**4 - É possível cancelar um pagamento?**
+
+Sim, através do endpoint `DELETE /api/pagamentos/{guid}` ou atualizando o status para "Cancelado" via `PUT /api/pagamentos/{guid}`.
+
+**5 - Como tratar erros na integração?**
+
+A API retorna códigos HTTP padronizados e mensagens de erro estruturadas. Verifique os logs no Kibana para detalhes adicionais sobre falhas.
 
