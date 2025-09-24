@@ -1,6 +1,6 @@
 # PaySafe
 
-**Sistema de Processamento de Pagamentos Seguro**
+**Checkou de Pagamentos MultiBroker com Roteamento Dinâmico de Transações**
 
 ## Tabela de Conteúdos
 
